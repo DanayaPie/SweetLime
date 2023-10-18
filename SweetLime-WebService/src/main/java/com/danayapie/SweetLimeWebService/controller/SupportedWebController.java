@@ -1,16 +1,19 @@
 package com.danayapie.SweetLimeWebService.controller;
 
+import com.danayapie.SweetLimeWebService.exception.WebAlreadyExistExcpetion;
+import com.danayapie.SweetLimeWebService.exception.WebDoesNotExistException;
 import com.danayapie.SweetLimeWebService.model.SupportedWebsite;
 import com.danayapie.SweetLimeWebService.service.SupportedWebService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.InvalidParameterException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class SupportedWebController {
@@ -18,22 +21,57 @@ public class SupportedWebController {
     private Logger logger = LoggerFactory.getLogger(SupportedWebController.class);
 
     @Autowired
-    private SupportedWebService supportedWebService;
+    private SupportedWebService webService;
 
-    @GetMapping(path = "/supportedWeb")
-    public ResponseEntity<Object> getAllSupportedWeb() {
-        logger.info("SupportedWebController.getAllSupportedWeb() invoked");
+    @PostMapping(path = "/supportedWeb")
+    public ResponseEntity<Object> addWeb(@RequestBody Map<String, String> json) {
+        logger.info("SupportedWebController.addWeb() invoked");
 
-        List<SupportedWebsite> allSupportedWebs = supportedWebService.getAllSupportedWeb();
+        try {
+            SupportedWebsite webToAdd = webService.addWeb(json.get("webName"), json.get("webUrl"));
+            return ResponseEntity.status(200).body(webToAdd);
 
-        return ResponseEntity.status(200).body(allSupportedWebs);
+        } catch (InvalidParameterException | WebDoesNotExistException | WebAlreadyExistExcpetion e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 
-//    @GetMapping(path = "/supportedWeb/{webUrl}")
-//    public ResponseEntity<Object> getWebByWebUrl(@PathVariable String webUrl) {
-//        logger.info("SupportedWebController.getWebByWebUrl() invoked");
-//
-//        SupportedWebsite SupportedWeb = suppo
-//        return
-//    }
+    @GetMapping(path = "/supportedWebs")
+    public ResponseEntity<Object> getAllWeb() {
+        logger.info("SupportedWebController.getAllWeb() invoked");
+
+        try {
+            List<SupportedWebsite> allSupportedWebs = webService.getAllWeb();
+            return ResponseEntity.status(200).body(allSupportedWebs);
+
+        } catch (InvalidParameterException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
+
+    @GetMapping(path = "/supportedWeb/{webId}")
+    public ResponseEntity<Object> getWebById(@PathVariable String webId) {
+        logger.info("SupportedWebController.getWebById() invoked");
+
+        try {
+            SupportedWebsite webToGet = webService.getWebById(webId);
+            return ResponseEntity.status(200).body(webToGet);
+
+        } catch (InvalidParameterException | WebDoesNotExistException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @GetMapping(path = "/supportedWebUrl/{webUrl}")
+    public ResponseEntity<Object> getWebByUrl(@PathVariable String webUrl) {
+        logger.info("SupportedWebController.getWebByUrl() invoked");
+
+        try {
+            SupportedWebsite webToGet = webService.getWebByUrl(webUrl);
+            return ResponseEntity.status(200).body(webToGet);
+
+        } catch (InvalidParameterException | WebDoesNotExistException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }
