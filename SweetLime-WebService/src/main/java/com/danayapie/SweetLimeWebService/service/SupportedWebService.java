@@ -82,9 +82,10 @@ public class SupportedWebService {
         List<SupportedWebsite> websToGet = webDao.getWebByUrl(domainName);
 
         if (websToGet.size() == 0 || websToGet == null) {
-            throw new WebDoesNotExistException("Website with URL of " + webUrl + " does not exist.");
+            throw new WebDoesNotExistException(domainName + " is currently not supported by Sweet Lime.");
         }
 
         return websToGet.get(0);
     }
+
 }

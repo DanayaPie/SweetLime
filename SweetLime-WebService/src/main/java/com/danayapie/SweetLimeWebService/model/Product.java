@@ -17,7 +17,7 @@ public class Product {
     private String productId;
 
     @DynamoDBAttribute(attributeName = "WebId")
-    private SupportedWebsite webId;
+    private String webId;
 
     @DynamoDBAttribute(attributeName = "ProductName")
     private String productName;
@@ -43,7 +43,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(String productId, SupportedWebsite webId, String productName, String productUrl, Map<String, String> options, List<Map<String, Long>> priceHistory, String imageLocation, long createdDate, long deletedDate) {
+    public Product(String productId, String webId, String productName, String productUrl, Map<String, String> options, List<Map<String, Long>> priceHistory, String imageLocation, long createdDate, long deletedDate) {
         this.productId = productId;
         this.webId = webId;
         this.productName = productName;
@@ -63,11 +63,11 @@ public class Product {
         this.productId = productId;
     }
 
-    public SupportedWebsite getWebId() {
+    public String getWebId() {
         return webId;
     }
 
-    public void setWebId(SupportedWebsite webId) {
+    public void setWebId(String webId) {
         this.webId = webId;
     }
 
