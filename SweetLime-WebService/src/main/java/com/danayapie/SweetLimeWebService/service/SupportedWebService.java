@@ -1,22 +1,21 @@
 package com.danayapie.SweetLimeWebService.service;
 
 import com.danayapie.SweetLimeWebService.dao.SupportedWebDao;
+import com.danayapie.SweetLimeWebService.exception.InvalidUrlOrDomainException;
 import com.danayapie.SweetLimeWebService.exception.WebAlreadyExistExcpetion;
 import com.danayapie.SweetLimeWebService.exception.WebDoesNotExistException;
 import com.danayapie.SweetLimeWebService.model.SupportedWebsite;
-import com.danayapie.SweetLimeWebService.utility.ExtractDomainName;
+import com.danayapie.SweetLimeWebService.utility.DomainNameUtil;
 import io.micrometer.common.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.InvalidParameterException;
 import java.time.Instant;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 public class SupportedWebService {
@@ -26,7 +25,7 @@ public class SupportedWebService {
     @Autowired
     private SupportedWebDao webDao;
 
-    public SupportedWebsite addWeb(String urlString) throws WebAlreadyExistExcpetion, WebDoesNotExistException, URISyntaxException {
+    public SupportedWebsite addWeb(String urlString) throws WebAlreadyExistExcpetion, WebDoesNotExistException, URISyntaxException, InvalidUrlOrDomainException {
         logger.info("SupportedWebService.addWeb() invoked");
 
         urlString = urlString.trim();
@@ -36,8 +35,9 @@ public class SupportedWebService {
             throw new InvalidParameterException("Domain name cannot be blank.");
         }
 
-        // extract Domain name
-        String domainName = ExtractDomainName.getDomainName(urlString);
+        // extract and validate Domain name
+        String domainName = DomainNameUtil.extractDomainName(urlString);
+        DomainNameUtil.validateDomainName(domainName);
 
         // check if website exist
         if (webDao.getWebByUrl(domainName).size() != 0) {
@@ -72,11 +72,12 @@ public class SupportedWebService {
         return webToGet;
     }
 
-    public SupportedWebsite getWebByUrl(String webUrl) throws WebDoesNotExistException, URISyntaxException {
+    public SupportedWebsite getWebByUrl(String webUrl) throws WebDoesNotExistException, URISyntaxException, InvalidUrlOrDomainException {
         logger.info("SupportedWebService.getWebByUrl() invoked");
 
-        // extract domain name
-        String domainName = ExtractDomainName.getDomainName(webUrl.trim());
+        // extract and validate domain name
+        String domainName = DomainNameUtil.extractDomainName(webUrl.trim());
+        DomainNameUtil.validateDomainName(domainName);
 
         List<SupportedWebsite> websToGet = webDao.getWebByUrl(domainName);
 

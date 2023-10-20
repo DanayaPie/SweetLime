@@ -1,5 +1,6 @@
 package com.danayapie.SweetLimeWebService.controller;
 
+import com.danayapie.SweetLimeWebService.exception.InvalidUrlOrDomainException;
 import com.danayapie.SweetLimeWebService.exception.WebAlreadyExistExcpetion;
 import com.danayapie.SweetLimeWebService.exception.WebDoesNotExistException;
 import com.danayapie.SweetLimeWebService.model.SupportedWebsite;
@@ -32,7 +33,7 @@ public class SupportedWebController {
             SupportedWebsite webToAdd = webService.addWeb(json.get("domainName"));
             return ResponseEntity.status(200).body(webToAdd);
 
-        } catch (InvalidParameterException | WebDoesNotExistException | WebAlreadyExistExcpetion | URISyntaxException e) {
+        } catch (InvalidParameterException | WebDoesNotExistException | WebAlreadyExistExcpetion | URISyntaxException | InvalidUrlOrDomainException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
@@ -71,7 +72,7 @@ public class SupportedWebController {
             SupportedWebsite webToGet = webService.getWebByUrl(webUrl);
             return ResponseEntity.status(200).body(webToGet);
 
-        } catch (InvalidParameterException | WebDoesNotExistException | URISyntaxException e) {
+        } catch (InvalidParameterException | WebDoesNotExistException | URISyntaxException | InvalidUrlOrDomainException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
