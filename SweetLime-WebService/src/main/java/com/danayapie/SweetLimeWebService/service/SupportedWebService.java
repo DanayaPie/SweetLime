@@ -4,14 +4,19 @@ import com.danayapie.SweetLimeWebService.dao.SupportedWebDao;
 import com.danayapie.SweetLimeWebService.exception.WebAlreadyExistExcpetion;
 import com.danayapie.SweetLimeWebService.exception.WebDoesNotExistException;
 import com.danayapie.SweetLimeWebService.model.SupportedWebsite;
-import com.danayapie.SweetLimeWebService.utility.ValidateSupportedWeb;
+import com.danayapie.SweetLimeWebService.utility.ExtractDomainName;
+import io.micrometer.common.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.security.InvalidParameterException;
 import java.time.Instant;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class SupportedWebService {
@@ -21,26 +26,28 @@ public class SupportedWebService {
     @Autowired
     private SupportedWebDao webDao;
 
-
-    public SupportedWebsite addWeb(String webName, String webUrl) throws WebAlreadyExistExcpetion, WebDoesNotExistException {
+    public SupportedWebsite addWeb(String urlString) throws WebAlreadyExistExcpetion, WebDoesNotExistException, URISyntaxException {
         logger.info("SupportedWebService.addWeb() invoked");
 
+        urlString = urlString.trim();
+
         // validate blank inputs
-        ValidateSupportedWeb.validateWebNameWebUrlBlank(webName, webUrl);
+        if (StringUtils.isBlank(urlString)) {
+            throw new InvalidParameterException("Domain name cannot be blank.");
+        }
 
-        webUrl = webUrl.trim().toLowerCase();
+        // extract Domain name
+        String domainName = ExtractDomainName.getDomainName(urlString);
 
-//        // check if website exist
-//        if (webDao.getWebByUrl(webUrl) != null) {
-//            throw new WebAlreadyExistExcpetion("Website already exist.");
-//        }
+        // check if website exist
+        if (webDao.getWebByUrl(domainName).size() != 0) {
+            throw new WebAlreadyExistExcpetion("Website already exist.");
+        }
 
-        webName = webName.trim().toUpperCase();
         long createdDate = Instant.now().getEpochSecond();
 
         SupportedWebsite webToAdd = new SupportedWebsite();
-        webToAdd.setWebName(webName);
-        webToAdd.setWebUrl(webUrl);
+        webToAdd.setDomainName(domainName);
         webToAdd.setCreatedDate(createdDate);
 
         webDao.addWeb(webToAdd);
@@ -51,7 +58,6 @@ public class SupportedWebService {
         logger.info("SupportedWebService.getAllWeb() invoked");
 
         List<SupportedWebsite> allSupportedWebs = webDao.getAllWeb();
-
         return allSupportedWebs;
     }
 
@@ -66,13 +72,16 @@ public class SupportedWebService {
         return webToGet;
     }
 
-    public SupportedWebsite getWebByUrl(String webUrl) throws WebDoesNotExistException {
+    public SupportedWebsite getWebByUrl(String webUrl) throws WebDoesNotExistException, URISyntaxException {
         logger.info("SupportedWebService.getWebByUrl() invoked");
 
-        List<SupportedWebsite> websToGet = webDao.getWebByUrl(webUrl.trim());
+        // extract domain name
+        String domainName = ExtractDomainName.getDomainName(webUrl.trim());
+
+        List<SupportedWebsite> websToGet = webDao.getWebByUrl(domainName);
 
         if (websToGet.size() == 0 || websToGet == null) {
-            throw new WebDoesNotExistException("Website with URL of " + webUrl + "does not exist.");
+            throw new WebDoesNotExistException("Website with URL of " + webUrl + " does not exist.");
         }
 
         return websToGet.get(0);

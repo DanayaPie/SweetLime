@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URISyntaxException;
 import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Map;
@@ -28,11 +29,11 @@ public class SupportedWebController {
         logger.info("SupportedWebController.addWeb() invoked");
 
         try {
-            SupportedWebsite webToAdd = webService.addWeb(json.get("webName"), json.get("webUrl"));
+            SupportedWebsite webToAdd = webService.addWeb(json.get("domainName"));
             return ResponseEntity.status(200).body(webToAdd);
 
-        } catch (InvalidParameterException | WebDoesNotExistException | WebAlreadyExistExcpetion e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+        } catch (InvalidParameterException | WebDoesNotExistException | WebAlreadyExistExcpetion | URISyntaxException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
@@ -45,7 +46,7 @@ public class SupportedWebController {
             return ResponseEntity.status(200).body(allSupportedWebs);
 
         } catch (InvalidParameterException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
@@ -70,7 +71,7 @@ public class SupportedWebController {
             SupportedWebsite webToGet = webService.getWebByUrl(webUrl);
             return ResponseEntity.status(200).body(webToGet);
 
-        } catch (InvalidParameterException | WebDoesNotExistException e) {
+        } catch (InvalidParameterException | WebDoesNotExistException | URISyntaxException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

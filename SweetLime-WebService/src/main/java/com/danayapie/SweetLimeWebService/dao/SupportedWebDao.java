@@ -47,20 +47,17 @@ public class SupportedWebDao {
         return webRetrieved;
     }
 
-    public  List<SupportedWebsite> getWebByUrl(String webUrl) {
+    public  List<SupportedWebsite> getWebByUrl(String domainName) {
         logger.info("SupportedWebDao.getWebByUrl() invoked");
 
-        Map<String, AttributeValue> expressionAttributeValue = new HashMap<>();
-        expressionAttributeValue.put(":webUrl", new AttributeValue().withS(webUrl));
+        Map<String, AttributeValue> evaMap = new HashMap<>();
+        evaMap.put(":domainName", new AttributeValue().withS(domainName));
 
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
-                .withFilterExpression("WebUrl = :webUrl")
-                .withExpressionAttributeValues(expressionAttributeValue);
+                .withFilterExpression("DomainName = :domainName")
+                .withExpressionAttributeValues(evaMap);
 
         List<SupportedWebsite> websRetrieved = dynamoDBMapper.scan(SupportedWebsite.class, scanExpression);
-
         return websRetrieved;
     }
-
-
 }
