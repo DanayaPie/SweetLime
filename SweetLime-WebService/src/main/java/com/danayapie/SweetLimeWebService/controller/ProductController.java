@@ -25,7 +25,7 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
-    
+
     @PostMapping(path = "/productUrl")
     public ResponseEntity<Object> getProductByUrl(@RequestBody Map<String, String> json) {
         logger.info("ProductController.getProductByUrl() invoked");
