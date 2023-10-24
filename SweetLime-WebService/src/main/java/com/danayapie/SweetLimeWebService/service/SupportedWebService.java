@@ -39,10 +39,12 @@ public class SupportedWebService {
         String domainName = DomainNameUtil.extractDomainName(urlString);
         DomainNameUtil.validateDomainName(domainName);
 
-        // check if website exist
-        if (webDao.getWebByUrl(domainName).size() != 0) {
-            throw new WebAlreadyExistExcpetion("Website already exist.");
-        }
+        /* check if website exist
+        *   - check with frontend local map
+        */
+//        if (webDao.getWebByUrl(domainName).size() != 0) {
+//            throw new WebAlreadyExistExcpetion("Website already exist.");
+//        }
 
         long createdDate = Instant.now().getEpochSecond();
 
