@@ -1,15 +1,16 @@
 package com.danayapie.SweetLimeTool.service;
 
+import com.danayapie.SweetLimeTool.dao.StylevanaDao;
 import com.danayapie.SweetLimeTool.model.Product;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.common.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URL;
 import java.security.InvalidParameterException;
 import java.time.Instant;
@@ -20,6 +21,8 @@ public class StylevanaService {
 
     private Logger logger = LoggerFactory.getLogger(StylevanaService.class);
 
+    @Autowired
+    StylevanaDao stylevanaDao;
 
     public List<Product> addProductByUrl(String productUrl) throws IOException {
         logger.info("StylevanaService.addProductByUrl() invoked");
@@ -51,8 +54,8 @@ public class StylevanaService {
             }
         }
 
-        logger.info("productJsonStr: " + productNamePriceJson);
-        logger.info("productAttributesJson: " + productAttributesJson);
+        logger.debug("productJsonStr: " + productNamePriceJson);
+        logger.debug("productAttributesJson: " + productAttributesJson);
 
         /*
             unmarshalling/ parsing/ deserialize Json String to Json obj
@@ -60,19 +63,16 @@ public class StylevanaService {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Product> productsToAdd = new HashMap<>();
 
+        // mapping and unmarshalling product name, priceHistory, url, and createdDate
         JsonNode namePriceJsonNode = objectMapper.readTree(productNamePriceJson);
-        logger.info("namePriceNode: " + namePriceJsonNode);
+        logger.debug("namePriceNode: " + namePriceJsonNode);
 
-        JsonNode attributesJsonNode = objectMapper.readTree(productAttributesJson);
-        logger.info("attributesJsonNode: " + attributesJsonNode);
-
-        // mapping and unmarshalling product name, priceHistory, and url
         Iterator<String> iter = namePriceJsonNode.fieldNames();
         while (iter.hasNext()) {
             productsToAdd.put(iter.next(), new Product());
         }
 
-        long updatedDate = Instant.now().getEpochSecond();
+        long createdDate = Instant.now().getEpochSecond();
 
         for (Map.Entry<String, Product> entry : productsToAdd.entrySet()) {
             String name = namePriceJsonNode.get(entry.getKey()).get("name").asText();
@@ -83,7 +83,7 @@ public class StylevanaService {
 
             Map<String, Long> priceHistoryMap = new HashMap();
             priceHistoryMap.put("Price", Math.round(dollars * 100));
-            priceHistoryMap.put("UpdatedDate", updatedDate);
+            priceHistoryMap.put("UpdatedDate", createdDate);
 
             List<Map<String, Long>> priceHistoryList = new ArrayList<>();
             priceHistoryList.add(priceHistoryMap);
@@ -92,23 +92,59 @@ public class StylevanaService {
             product.setProductUrl(productUrl);
             product.setProductName(name);
             product.setPriceHistory(priceHistoryList);
+            product.setCreatedDate(createdDate);
 
             productsToAdd.put(entry.getKey(), product);
         }
 
-        logger.info("here");
-
         // mapping and unmarshalling color and size attributes
+        JsonNode attributesJsonNode = objectMapper.readTree(productAttributesJson);
+        logger.debug("attributesJsonNode: " + attributesJsonNode);
 
+        // unmarshalling Color
+        JsonNode colorJsonNode = attributesJsonNode.get("attributes").get("183").get("options");
 
-        logger.info("productsToAdd.toString(): " + productsToAdd);
+        for (int i = 0; i < colorJsonNode.size(); i++) {
 
+            String stylevanaProductId = colorJsonNode.get(i).get("products").get(0).asText();
+            logger.debug("colorJsonNode.get(i).get(\"products\"): " + colorJsonNode.get(i).get("products").get(0).asText());
 
+            if (productsToAdd.containsKey(stylevanaProductId)) {
 
-//        Product productToAdd = objectMapper.readValue(productJsonStr, Product.class);
-//
-//        logger.info("productToAdd: " + String.valueOf(productToAdd));
+                Map<String, String> colorMap = new HashMap<>();
+                colorMap.put("Color", colorJsonNode.get(i).get("label").asText());
 
-        return null;
+                Product productToAdd = productsToAdd.get(stylevanaProductId);
+                productToAdd.setOptions(colorMap);
+            }
+        }
+
+        // unmarshalling Beauty Milliliter
+        JsonNode mlJsonNode = attributesJsonNode.get("attributes").get("194").get("options");
+
+        for (int i = 0; i < mlJsonNode.size(); i++) {
+
+            String stylevanaProductId = colorJsonNode.get(i).get("products").get(0).asText();
+
+            if (productsToAdd.containsKey(stylevanaProductId)) {
+
+                Product productToadd = productsToAdd.get(stylevanaProductId);
+
+                Map<String, String> sizeMap = productToadd.getOptions();
+                sizeMap.put("Size", mlJsonNode.get(i).get("label").asText());
+
+                productToadd.setOptions(sizeMap);
+            }
+        }
+
+        logger.debug("productsToAdd.toString(): " + productsToAdd);
+
+        List<Product> productsToAddList = new ArrayList<>();
+        for (Map.Entry<String, Product> entry : productsToAdd.entrySet()) {
+            productsToAddList.add(entry.getValue());
+        }
+
+        stylevanaDao.addProductByUrl(productsToAddList);
+        return productsToAddList;
     }
 }

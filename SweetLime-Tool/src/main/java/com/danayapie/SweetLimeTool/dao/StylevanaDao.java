@@ -1,7 +1,25 @@
 package com.danayapie.SweetLimeTool.dao;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.danayapie.SweetLimeTool.model.Product;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class StylevanaDao {
+
+    private Logger logger = LoggerFactory.getLogger(StylevanaDao.class);
+
+    @Autowired
+    private DynamoDBMapper dynamoDBMapper;
+
+    public List<DynamoDBMapper.FailedBatch> addProductByUrl(List<Product> productsToAddList) {
+        logger.info("StylevanaDao.addProductByUrl() invoked");
+
+        return dynamoDBMapper.batchSave(productsToAddList);
+    }
 }
