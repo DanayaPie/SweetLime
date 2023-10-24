@@ -24,10 +24,11 @@ public class SupportedWebDao {
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
-    public void addWeb(SupportedWebsite webToAdd) {
+    public SupportedWebsite addWeb(SupportedWebsite webToAdd) {
         logger.info("SupportedWebDao.addWeb() invoked");
 
         dynamoDBMapper.save(webToAdd);
+        return webToAdd;
     }
 
     public List<SupportedWebsite> getAllWeb() {
