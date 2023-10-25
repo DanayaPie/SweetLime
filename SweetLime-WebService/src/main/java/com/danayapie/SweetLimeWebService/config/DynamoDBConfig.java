@@ -77,4 +77,5 @@ public class DynamoDBConfig {
 //                .withConsistentReads(DynamoDBMapperConfig.ConsistentReads.EVENTUAL)
 //                .withPaginationLoadingStrategy(DynamoDBMapperConfig.PaginationLoadingStrategy.LAZY_LOADING)
 //                .build();
+//    }
 }

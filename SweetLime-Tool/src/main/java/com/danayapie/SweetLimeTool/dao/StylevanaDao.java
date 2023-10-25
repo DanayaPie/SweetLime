@@ -28,9 +28,7 @@ public class StylevanaDao {
         logger.info("StylevanaDao.getAllProducts() invoked");
 
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
-        List<Product> allProducts = dynamoDBMapper.scan(Product.class, scanExpression);
-
-        return allProducts;
+        return dynamoDBMapper.scan(Product.class, scanExpression);
     }
 
     public List<DynamoDBMapper.FailedBatch> batchUpdateProducts(List<Product> productsToUpdateList) {

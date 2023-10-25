@@ -1,11 +1,8 @@
 package com.danayapie.SweetLimeWebService.dao;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.amazonaws.services.dynamodbv2.model.ScanRequest;
-import com.amazonaws.services.dynamodbv2.model.ScanResult;
 import com.danayapie.SweetLimeWebService.model.SupportedWebsite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,20 +32,16 @@ public class SupportedWebDao {
         logger.info("SupportedWebDao.getAllWebs() invoked");
 
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
-        List<SupportedWebsite> allWebs = dynamoDBMapper.scan(SupportedWebsite.class, scanExpression);
-
-        return allWebs;
+        return dynamoDBMapper.scan(SupportedWebsite.class, scanExpression);
     }
 
     public SupportedWebsite getWebById(String webId) {
         logger.info("SupportedWebDao.getWebById() invoked");
 
-        SupportedWebsite webRetrieved = dynamoDBMapper.load(SupportedWebsite.class, webId);
-
-        return webRetrieved;
+        return dynamoDBMapper.load(SupportedWebsite.class, webId);
     }
 
-    public  List<SupportedWebsite> getWebByUrl(String domainName) {
+    public List<SupportedWebsite> getWebByUrl(String domainName) {
         logger.info("SupportedWebDao.getWebByUrl() invoked");
 
         Map<String, AttributeValue> evaMap = new HashMap<>();
@@ -58,7 +51,6 @@ public class SupportedWebDao {
                 .withFilterExpression("DomainName = :domainName")
                 .withExpressionAttributeValues(evaMap);
 
-        List<SupportedWebsite> websRetrieved = dynamoDBMapper.scan(SupportedWebsite.class, scanExpression);
-        return websRetrieved;
+        return dynamoDBMapper.scan(SupportedWebsite.class, scanExpression);
     }
 }

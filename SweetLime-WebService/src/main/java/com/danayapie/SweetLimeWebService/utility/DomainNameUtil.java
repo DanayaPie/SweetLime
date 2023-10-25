@@ -13,8 +13,8 @@ public class DomainNameUtil {
 
     private static Logger logger = LoggerFactory.getLogger(DomainNameUtil.class);
 
-    public static String extractDomainName(String urlString) throws URISyntaxException {
-        logger.info("DomainNameUtil.extractDomainName() invoked");
+    public static String extractValidateDomainName(String urlString) throws URISyntaxException, InvalidUrlOrDomainException {
+        logger.info("DomainNameUtil.extractValidateDomainName() invoked");
 
         if (!urlString.startsWith("http") && !urlString.startsWith("https")) {
             urlString = "http://" + urlString;
@@ -22,14 +22,6 @@ public class DomainNameUtil {
         URI uri = new URI(urlString);
         String host = uri.getHost();
         String domainName = host.startsWith("www.") ? host.substring(4) : host;
-
-        logger.debug("domainName: " + domainName);
-
-        return domainName.toLowerCase();
-    }
-
-    public static void validateDomainName(String domainName) throws InvalidUrlOrDomainException {
-        logger.info("DomainNameUtil.validateDomainName() invoked");
 
         String regex = "^((?!-)[A-Za-z0-9-]"
                 + "{1,63}(?<!-)\\.)"
@@ -41,5 +33,6 @@ public class DomainNameUtil {
         if (!matcher.matches()) {
             throw new InvalidUrlOrDomainException("Invalid URL or domain name.");
         }
+        return domainName.toLowerCase();
     }
 }

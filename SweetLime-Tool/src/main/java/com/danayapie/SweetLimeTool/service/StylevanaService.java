@@ -60,7 +60,6 @@ public class StylevanaService {
         for (Map.Entry<String, Product> entry : productsToAddMap.entrySet()) {
             String name = namePriceJsonNode.get(entry.getKey()).get("name").asText();
             String priceStr = namePriceJsonNode.get(entry.getKey()).get("final_price").asText();
-
             long priceCent = Math.round(Double.parseDouble(priceStr) * 100);
 
             Map<String, Long> priceHistoryMap = new HashMap();
@@ -87,12 +86,10 @@ public class StylevanaService {
         JsonNode colorJsonNode = attributesJsonNode.get("attributes").get("183").get("options");
 
         for (int i = 0; i < colorJsonNode.size(); i++) {
-
             String stylevanaProductId = colorJsonNode.get(i).get("products").get(0).asText();
             logger.debug("colorJsonNode.get(i).get(\"products\"): " + colorJsonNode.get(i).get("products").get(0).asText());
 
             if (productsToAddMap.containsKey(stylevanaProductId)) {
-
                 Map<String, String> colorMap = new HashMap<>();
                 colorMap.put("Color", colorJsonNode.get(i).get("label").asText());
 
@@ -103,13 +100,10 @@ public class StylevanaService {
 
         // unmarshalling Beauty Milliliter
         JsonNode mlJsonNode = attributesJsonNode.get("attributes").get("194").get("options");
-
         for (int i = 0; i < mlJsonNode.size(); i++) {
-
             String stylevanaProductId = colorJsonNode.get(i).get("products").get(0).asText();
 
             if (productsToAddMap.containsKey(stylevanaProductId)) {
-
                 Product productToadd = productsToAddMap.get(stylevanaProductId);
 
                 Map<String, String> sizeMap = productToadd.getOptions();
@@ -133,9 +127,7 @@ public class StylevanaService {
     public List<Product> getAllProducts() {
         logger.info("StylevanaService.getAllProducts() invoked");
 
-        List<Product> allProducts = stylevanaDao.getAllProducts();
-
-        return allProducts;
+        return stylevanaDao.getAllProducts();
     }
 
     public List<Product> batchUpdateProducts() throws IOException, InterruptedException {
@@ -160,49 +152,38 @@ public class StylevanaService {
             // get json string from url
             String productNamePriceJson = StylevanaUtil.extractPriceJsonString(entry.getKey());
 
-            /*
-                unmarshalling Json String to Json obj
-             */
+            // unmarshalling price and name Json String to Json obj
             ObjectMapper objectMapper = new ObjectMapper();
-
-            // unmarshalling and mapping product name, and priceHistory
             JsonNode namePriceJsonNode = objectMapper.readTree(productNamePriceJson);
 
+            for (Iterator<String> fieldNames = namePriceJsonNode.fieldNames(); fieldNames.hasNext(); ) {
+                logger.debug("fieldNames: " + fieldNames);
 
-            Iterator<String> iter = namePriceJsonNode.fieldNames();
-            while (iter.hasNext()) {
-                String productToUpdate = iter.next();
-                logger.info("productToUpdate: " + productToUpdate);
-
+                String productToUpdate = fieldNames.next();
                 String name = namePriceJsonNode.get(productToUpdate).get("name").asText();
                 String priceStr = namePriceJsonNode.get(productToUpdate).get("final_price").asText();
-
                 long priceCent = Math.round(Double.parseDouble(priceStr) * 100);
 
                 for (Product product : entry.getValue()) {
                     if (product.getProductName().equals(name)) {
-                        logger.info("product name match");
+                        logger.debug("product name match");
 
                         List<Map<String, Long>> priceHistoryList = product.getPriceHistory();
+
                         if (priceHistoryList.get(priceHistoryList.size() - 1).get("Price") != priceCent) {
-                            logger.info("product price not match");
+                            logger.debug("price changed");
 
                             long updatedDate = Instant.now().getEpochSecond();
-
                             Map<String, Long> priceHistoryMap = new HashMap<>();
                             priceHistoryMap.put("Price", priceCent);
                             priceHistoryMap.put("UpdatedDate", updatedDate);
-
                             priceHistoryList.add(priceHistoryMap);
-
-                            // add product to the updated list
                             productsToUpdateList.add(product);
                         }
                     }
                 }
             }
 
-            // sleep for 1 minute before extract another url
             Thread.sleep(60000);
         }
 

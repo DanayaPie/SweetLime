@@ -62,6 +62,5 @@ public class StylevanaController {
         } catch (InvalidParameterException | IOException | InterruptedException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-
     }
 }

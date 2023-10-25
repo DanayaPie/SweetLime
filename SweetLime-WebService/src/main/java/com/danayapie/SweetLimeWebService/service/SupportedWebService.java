@@ -35,39 +35,33 @@ public class SupportedWebService {
             throw new InvalidParameterException("Domain name cannot be blank.");
         }
 
-        // extract and validate Domain name
-        String domainName = DomainNameUtil.extractDomainName(urlString);
-        DomainNameUtil.validateDomainName(domainName);
+        String domainName = DomainNameUtil.extractValidateDomainName(urlString);
+        long createdDate = Instant.now().getEpochSecond();
 
         /* check if website exist
-        *   - check with frontend local map
-        */
+         *   - check with frontend local map
+         */
 //        if (webDao.getWebByUrl(domainName).size() != 0) {
 //            throw new WebAlreadyExistExcpetion("Website already exist.");
 //        }
-
-        long createdDate = Instant.now().getEpochSecond();
 
         SupportedWebsite webToAdd = new SupportedWebsite();
         webToAdd.setDomainName(domainName);
         webToAdd.setCreatedDate(createdDate);
 
-        webDao.addWeb(webToAdd);
-        return webToAdd;
+        return webDao.addWeb(webToAdd);
     }
 
     public List<SupportedWebsite> getAllWebs() {
         logger.info("SupportedWebService.getAllWebs() invoked");
 
-        List<SupportedWebsite> allSupportedWebs = webDao.getAllWebs();
-        return allSupportedWebs;
+        return webDao.getAllWebs();
     }
 
     public SupportedWebsite getWebById(String webId) throws WebDoesNotExistException {
         logger.info("SupportedWebService.getWebById() invoked");
 
         SupportedWebsite webToGet = webDao.getWebById(webId);
-
         if (webToGet == null) {
             throw new WebDoesNotExistException("Website with ID of " + webId + " does not exist.");
         }
@@ -77,10 +71,7 @@ public class SupportedWebService {
     public SupportedWebsite getWebByUrl(String webUrl) throws WebDoesNotExistException, URISyntaxException, InvalidUrlOrDomainException {
         logger.info("SupportedWebService.getWebByUrl() invoked");
 
-        // extract and validate domain name
-        String domainName = DomainNameUtil.extractDomainName(webUrl.trim());
-        DomainNameUtil.validateDomainName(domainName);
-
+        String domainName = DomainNameUtil.extractValidateDomainName(webUrl.trim());
         List<SupportedWebsite> websToGet = webDao.getWebByUrl(domainName);
 
         if (websToGet.size() == 0 || websToGet == null) {
