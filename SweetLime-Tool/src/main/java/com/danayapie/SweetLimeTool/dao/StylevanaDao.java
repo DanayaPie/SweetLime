@@ -1,6 +1,7 @@
 package com.danayapie.SweetLimeTool.dao;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.danayapie.SweetLimeTool.model.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,5 +22,20 @@ public class StylevanaDao {
         logger.info("StylevanaDao.addProductByUrl() invoked");
 
         return dynamoDBMapper.batchSave(productsToAddList);
+    }
+
+    public List<Product> getAllProducts() {
+        logger.info("StylevanaDao.getAllProducts() invoked");
+
+        DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+        List<Product> allProducts = dynamoDBMapper.scan(Product.class, scanExpression);
+
+        return allProducts;
+    }
+
+    public List<DynamoDBMapper.FailedBatch> batchUpdateProducts(List<Product> productsToUpdateList) {
+        logger.info("StylevanaDao.batchUpdateProducts() invoked");
+
+        return dynamoDBMapper.batchSave(productsToUpdateList);
     }
 }
