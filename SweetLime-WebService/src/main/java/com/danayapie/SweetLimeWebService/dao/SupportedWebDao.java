@@ -31,8 +31,8 @@ public class SupportedWebDao {
         return webToAdd;
     }
 
-    public List<SupportedWebsite> getAllWeb() {
-        logger.info("SupportedWebDao.getAllWeb() invoked");
+    public List<SupportedWebsite> getAllWebs() {
+        logger.info("SupportedWebDao.getAllWebs() invoked");
 
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
         List<SupportedWebsite> allWebs = dynamoDBMapper.scan(SupportedWebsite.class, scanExpression);

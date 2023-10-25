@@ -39,11 +39,11 @@ public class SupportedWebController {
     }
 
     @GetMapping(path = "/supportedWebs")
-    public ResponseEntity<Object> getAllWeb() {
-        logger.info("SupportedWebController.getAllWeb() invoked");
+    public ResponseEntity<Object> getAllWebs() {
+        logger.info("SupportedWebController.getAllWebs() invoked");
 
         try {
-            List<SupportedWebsite> allSupportedWebs = webService.getAllWeb();
+            List<SupportedWebsite> allSupportedWebs = webService.getAllWebs();
             return ResponseEntity.status(200).body(allSupportedWebs);
 
         } catch (InvalidParameterException e) {

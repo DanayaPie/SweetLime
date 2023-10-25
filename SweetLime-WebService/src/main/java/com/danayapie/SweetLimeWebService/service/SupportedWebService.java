@@ -56,10 +56,10 @@ public class SupportedWebService {
         return webToAdd;
     }
 
-    public List<SupportedWebsite> getAllWeb() {
-        logger.info("SupportedWebService.getAllWeb() invoked");
+    public List<SupportedWebsite> getAllWebs() {
+        logger.info("SupportedWebService.getAllWebs() invoked");
 
-        List<SupportedWebsite> allSupportedWebs = webDao.getAllWeb();
+        List<SupportedWebsite> allSupportedWebs = webDao.getAllWebs();
         return allSupportedWebs;
     }
 
