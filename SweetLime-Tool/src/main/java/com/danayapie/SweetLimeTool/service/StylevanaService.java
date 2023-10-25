@@ -1,8 +1,5 @@
 package com.danayapie.SweetLimeTool.service;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
-import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
-import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
 import com.danayapie.SweetLimeTool.dao.StylevanaDao;
 import com.danayapie.SweetLimeTool.model.Product;
 import com.danayapie.SweetLimeTool.utility.StylevanaUtil;
@@ -187,7 +184,7 @@ public class StylevanaService {
                         logger.info("product name match");
 
                         List<Map<String, Long>> priceHistoryList = product.getPriceHistory();
-                        if (priceHistoryList.get(0).get("Price") != priceCent) {
+                        if (priceHistoryList.get(priceHistoryList.size() - 1).get("Price") != priceCent) {
                             logger.info("product price not match");
 
                             long updatedDate = Instant.now().getEpochSecond();
@@ -197,7 +194,7 @@ public class StylevanaService {
                             priceHistoryMap.put("UpdatedDate", updatedDate);
 
                             priceHistoryList.add(priceHistoryMap);
-                            
+
                             // add product to the updated list
                             productsToUpdateList.add(product);
                         }
