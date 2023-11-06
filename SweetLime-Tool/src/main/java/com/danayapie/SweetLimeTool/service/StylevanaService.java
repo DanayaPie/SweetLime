@@ -40,19 +40,19 @@ public class StylevanaService {
         logger.debug("productJsonStr: " + productNamePriceJson);
         logger.debug("productAttributesJson: " + productAttributesJson);
 
-        /*
-            unmarshalling/ parsing/ deserialize Json String to Json obj
-         */
         ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Product> productsToAddMap = new HashMap<>();
 
-        // mapping and unmarshalling product name, priceHistory, url, and createdDate
+        /*
+            mapping + unmarshalling: product name, priceHistory, url, and createdDate
+         */
         JsonNode namePriceJsonNode = objectMapper.readTree(productNamePriceJson);
         logger.debug("namePriceNode: " + namePriceJsonNode);
 
-        Iterator<String> iter = namePriceJsonNode.fieldNames();
-        while (iter.hasNext()) {
-            productsToAddMap.put(iter.next(), new Product());
+        Map<String, Product> productsToAddMap = new HashMap<>();
+
+        Iterator<String> iterProduct = namePriceJsonNode.fieldNames();
+        while (iterProduct.hasNext()) {
+            productsToAddMap.put(iterProduct.next(), new Product());
         }
 
         long createdDate = Instant.now().getEpochSecond();
@@ -78,13 +78,22 @@ public class StylevanaService {
             productsToAddMap.put(entry.getKey(), product);
         }
 
-        // mapping and unmarshalling color and size attributes
-        JsonNode attributesJsonNode = objectMapper.readTree(productAttributesJson);
+        /*
+            mapping + unmarshalling attributes
+            - Product can have up to 2 attributes; Color or Color and Milliliter or Color and Piece
+         */
+        JsonNode attributesJsonNode = objectMapper.readTree(productAttributesJson).get("attributes");
         logger.debug("attributesJsonNode: " + attributesJsonNode);
 
-        // unmarshalling Color
-        JsonNode colorJsonNode = attributesJsonNode.get("attributes").get("183").get("options");
+        List<String> attributesToAddList = new ArrayList();
 
+        Iterator<String> iterAttribute = attributesJsonNode.fieldNames();
+        while (iterAttribute.hasNext()) {
+            attributesToAddList.add(iterAttribute.next());
+        }
+
+        // unmarshalling Color
+        JsonNode colorJsonNode = attributesJsonNode.get("183").get("options");
         for (int i = 0; i < colorJsonNode.size(); i++) {
             String stylevanaProductId = colorJsonNode.get(i).get("products").get(0).asText();
             logger.debug("colorJsonNode.get(i).get(\"products\"): " + colorJsonNode.get(i).get("products").get(0).asText());
@@ -98,22 +107,41 @@ public class StylevanaService {
             }
         }
 
-        // unmarshalling Beauty Milliliter
-        JsonNode mlJsonNode = attributesJsonNode.get("attributes").get("194").get("options");
-        for (int i = 0; i < mlJsonNode.size(); i++) {
-            String stylevanaProductId = colorJsonNode.get(i).get("products").get(0).asText();
+        if (attributesToAddList.size() > 1) {
 
-            if (productsToAddMap.containsKey(stylevanaProductId)) {
-                Product productToadd = productsToAddMap.get(stylevanaProductId);
+            // unmarshalling Beauty Milliliter
+            if (attributesToAddList.get(1) == "194") {
+                JsonNode mlJsonNode = attributesJsonNode.get("194").get("options");
+                for (int i = 0; i < mlJsonNode.size(); i++) {
+                    String stylevanaProductId = colorJsonNode.get(i).get("products").get(0).asText();
 
-                Map<String, String> sizeMap = productToadd.getOptions();
-                sizeMap.put("Size", mlJsonNode.get(i).get("label").asText());
+                    if (productsToAddMap.containsKey(stylevanaProductId)) {
+                        Product productToadd = productsToAddMap.get(stylevanaProductId);
 
-                productToadd.setOptions(sizeMap);
+                        Map<String, String> sizeMap = productToadd.getOptions();
+                        sizeMap.put("Size", mlJsonNode.get(i).get("label").asText());
+
+                        productToadd.setOptions(sizeMap);
+                    }
+                }
+
+                // unmarshalling Beauty Piece
+            } else if (attributesToAddList.get(1) == "198") {
+                JsonNode pieceJsonNode = attributesJsonNode.get("198").get("options");
+                for (int i = 0; i < pieceJsonNode.size(); i++) {
+                    String stylevanaProductId = colorJsonNode.get(i).get("products").get(0).asText();
+
+                    if (productsToAddMap.containsKey(stylevanaProductId)) {
+                        Product productToadd = productsToAddMap.get(stylevanaProductId);
+
+                        Map<String, String> sizeMap = productToadd.getOptions();
+                        sizeMap.put("Size", pieceJsonNode.get(i).get("label").asText());
+
+                        productToadd.setOptions(sizeMap);
+                    }
+                }
             }
         }
-
-        logger.debug("productsToAddMap.toString(): " + productsToAddMap);
 
         List<Product> productsToAddList = new ArrayList<>();
         for (Map.Entry<String, Product> entry : productsToAddMap.entrySet()) {
