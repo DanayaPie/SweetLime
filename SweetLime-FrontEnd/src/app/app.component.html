@@ -1,7 +1,12 @@
 <app-header></app-header>
 <div class="container" id="content_container">
-  <app-product></app-product>
+  <ng-container *ngIf="!sharedService.showProductComponent">
+    <app-supported-web> </app-supported-web>
+  </ng-container>
+  <ng-container *ngIf="sharedService.showProductComponent">
+    <app-product> </app-product>
+  </ng-container>
   <hr />
-  <app-suggested-products></app-suggested-products>
+  <app-suggested-product></app-suggested-product>
 </div>
 <app-footer></app-footer>

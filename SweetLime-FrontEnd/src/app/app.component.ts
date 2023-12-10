@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { StartUpService } from './services/startup.service';
+import { SharedService } from './services/shared.service';
+import { StartUpService } from './startup/start-up.service';
 
 @Component({
   selector: 'app-root',
@@ -8,15 +9,18 @@ import { StartUpService } from './services/startup.service';
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent implements OnInit{
+export class AppComponent {
   title = 'SweetLime';
 
-  constructor(private startupService: StartUpService) {}
+  constructor(
+    private startUpservice: StartUpService,
+    public sharedService: SharedService
+    ) {}
 
   ngOnInit() {
-    this.startupService.getSupportedWebsRequest().subscribe(
+    this.startUpservice.getSupportedWebsRequest().subscribe(
       (supportedWebs) => {
-        this.startupService.setWebList(supportedWebs);
+        this.startUpservice.setWebList(supportedWebs);
         console.log('Data fetched successfully:', supportedWebs);
       },
       (error) => {
