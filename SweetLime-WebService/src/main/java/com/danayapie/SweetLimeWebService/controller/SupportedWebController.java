@@ -17,6 +17,7 @@ import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:4200"}, maxAge = 3600)
 @RestController
 public class SupportedWebController {
 
