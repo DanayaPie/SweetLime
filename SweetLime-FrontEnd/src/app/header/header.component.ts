@@ -18,7 +18,7 @@ export class HeaderComponent {
   onSubmit() {
     const productUrl = this.searchForm.value.productUrl;
 
-    this.productService.getProductByUrl(productUrl).subscribe(
+    this.productService.getProductByUrlRequest(productUrl).subscribe(
       (data) => {
         console.log('Produce Retrieved:', data);
       },

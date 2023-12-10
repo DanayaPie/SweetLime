@@ -15,7 +15,7 @@ export class ProductService {
         this.apiUrl = this.configService.getApiUrl();
     }
 
-    getProductByUrl(productUrl: string): Observable<any> {
+    getProductByUrlRequest(productUrl: string): Observable<any> {
         const requestBody = { productUrl };
         const getProductByUrl = `${this.apiUrl}/productUrl`;
         return this.http.post<any>(getProductByUrl, requestBody);
