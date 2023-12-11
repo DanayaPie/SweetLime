@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable, catchError, of, switchMap, tap, throwError } from "rxjs";
 
 import { ConfigService } from "../services/config.service";
+import { SharedService } from "../services/shared.service";
 
 @Injectable({
     providedIn: 'root'
@@ -10,13 +11,14 @@ import { ConfigService } from "../services/config.service";
 
 export class StartUpService {
     private apiUrl: string;
-    private webList: string[] = []
 
     constructor (
         private configService: ConfigService, 
-        private http: HttpClient
+        private http: HttpClient,
+        private sharedService: SharedService
         ) {
             this.apiUrl = this.configService.getApiUrl();
+            this.fetchSupportedWebs().subscribe();
     }
 
     fetchSupportedWebs(): Observable<String[]> {
@@ -27,16 +29,7 @@ export class StartUpService {
                 console.error('Error fetching supported websites:', error);
                 return of([]); // return empty array
             }),
-            tap(supportedWebs => this.setWebList(supportedWebs)) // tap is used to perform the 'setWebList' with the main observable
+            tap(supportedWebs => this.sharedService.setWebList(supportedWebs)) // tap is used to perform the 'setWebList' with the main observable
         );
-    }
-
-    setWebList(supportedWebs: any[]): void {
-        this.webList = supportedWebs.map(web => web.domainName);
-        console.log('Web List: ', this.webList);
-    }
-
-    getWebList(): string[] {
-        return this.webList;
     }
 }

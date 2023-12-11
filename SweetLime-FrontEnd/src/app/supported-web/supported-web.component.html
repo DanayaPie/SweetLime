@@ -1,7 +1,7 @@
 <div>
   <p>Supported Websites:</p>
   <ul>
-    <li *ngFor="let supportedWeb of startUpService.getWebList()">
+    <li *ngFor="let supportedWeb of sharedService.getWebList()">
       {{ supportedWeb }}
     </li>
   </ul>

@@ -6,10 +6,14 @@ import { Injectable } from "@angular/core";
 
 export class SharedService {
     showProductComponent = false;
-    
     public webList: string[] = [];
 
-    getWebList(): String[] {
+    setWebList(supportedWebs: any[]): void {
+        this.webList = supportedWebs.map(web => web.domainName);
+        console.log('Web List: ', this.webList);
+    }
+
+    getWebList(): string[] {
         return this.webList;
     }
 }

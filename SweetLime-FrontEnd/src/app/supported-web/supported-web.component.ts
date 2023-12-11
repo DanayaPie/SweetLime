@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { StartUpService } from '../startup/start-up.service';
+import { SharedService } from '../services/shared.service';
 
 interface RouteData {
   supportedWebs: string[];
@@ -16,6 +17,6 @@ export class SupportedWebComponent {
   supportedWebs: string[] = [];
 
   constructor(
-    public startUpService: StartUpService,
+    public sharedService: SharedService,
   ) {}
 }

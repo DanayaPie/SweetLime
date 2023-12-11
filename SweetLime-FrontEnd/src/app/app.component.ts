@@ -20,7 +20,7 @@ export class AppComponent implements OnInit{
   ngOnInit() {
     this.startUpService.fetchSupportedWebs().subscribe(
       (supportedWebs) => {
-        this.startUpService.setWebList(supportedWebs);
+        this.sharedService.setWebList(supportedWebs);
         console.log('Data fetched successfully:', supportedWebs);
       },
       (error) => {
