@@ -9,18 +9,18 @@ import { StartUpService } from './startup/start-up.service';
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'SweetLime';
 
   constructor(
-    private startUpservice: StartUpService,
+    private startUpService: StartUpService,
     public sharedService: SharedService
     ) {}
 
   ngOnInit() {
-    this.startUpservice.getSupportedWebsRequest().subscribe(
+    this.startUpService.fetchSupportedWebs().subscribe(
       (supportedWebs) => {
-        this.startUpservice.setWebList(supportedWebs);
+        this.startUpService.setWebList(supportedWebs);
         console.log('Data fetched successfully:', supportedWebs);
       },
       (error) => {

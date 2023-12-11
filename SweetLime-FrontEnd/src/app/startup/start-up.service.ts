@@ -17,10 +17,9 @@ export class StartUpService {
         private http: HttpClient
         ) {
             this.apiUrl = this.configService.getApiUrl();
-            this.getSupportedWebsRequest().subscribe();
     }
 
-    getSupportedWebsRequest(): Observable<String[]> {
+    fetchSupportedWebs(): Observable<String[]> {
         const getAllWebsUrl = `${this.apiUrl}/supportedWebs`;
 
         return this.http.get<any[]>(getAllWebsUrl).pipe(

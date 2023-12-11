@@ -14,6 +14,6 @@ export class StartUpResolver implements Resolve<Observable<any>> {
         ) {}
 
     resolve(): Observable<any> {
-        return this.startUpService.getSupportedWebsRequest();
+        return this.startUpService.fetchSupportedWebs();
     }
 }
