@@ -5,10 +5,10 @@
       <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
         <div class="input-group">
           <input
-            class="input-group-field has-tip"
             type="text"
             placeholder="Find Products"
             formControlName="productUrl"
+            (keyup.enter)="onSubmit()"
           />
           <div class="input-group-button">
             <button class="button" value="search" title="search">Search</button>

@@ -1,4 +1,7 @@
 <div>
+  <p *ngIf="sharedService.supportedProduct" style="color: red">
+    Product URL must be from supported websites.
+  </p>
   <p>Supported Websites:</p>
   <ul>
     <li *ngFor="let supportedWeb of sharedService.getWebList()">

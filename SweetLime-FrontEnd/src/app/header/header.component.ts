@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 import { ProductService } from '../services/product.service';
 import { SharedService } from '../services/shared.service';
+import { supportedProductCheck } from '../validators/supportedProductCheck';
 
 @Component({
   selector: 'app-header',
@@ -11,16 +12,17 @@ import { SharedService } from '../services/shared.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  searchForm: FormGroup = this.formBuilder.group({
-    productUrl: ['']
-  });
+  searchForm: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder, 
-    private router: Router, 
     private productService: ProductService,
-    private sharedService: SharedService
-  ) {}
+    private sharedService: SharedService,
+  ) {
+    this.searchForm = this.formBuilder.group({
+      productUrl: ['', [Validators.required, supportedProductCheck(this.sharedService)]]
+    })
+  }
 
   onSubmit() {
     const productUrl = this.searchForm.value.productUrl;
@@ -30,14 +32,19 @@ export class HeaderComponent {
         console.log('Produce Retrieved:', data);
 
         this.sharedService.showProductComponent = true;
+        this.sharedService.supportedProduct = false;
+
+        this.searchForm.reset();
       },
       (error) => {
         console.error('Error getting product:', error);
-        
-        this.sharedService.showProductComponent = false;
-      }
-    )
 
-    // this.router.navigate(['/product']);
+        this.sharedService.supportedProduct = true;
+        this.sharedService.showProductComponent = false;
+
+        this.searchForm.reset();
+      }
+
+    )
   }
 }
