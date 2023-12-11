@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { ConfigService } from './config.service';
+import { Product } from '../models/product';
 
 @Injectable({
     providedIn: 'root'
@@ -11,13 +12,16 @@ import { ConfigService } from './config.service';
 export class ProductService {
     private apiUrl: string;
 
-    constructor (private configService: ConfigService, private http: HttpClient) {
+    constructor (
+        private configService: ConfigService, 
+        private http: HttpClient
+    ) {
         this.apiUrl = this.configService.getApiUrl();
     }
 
-    getProductByUrlRequest(productUrl: string): Observable<any> {
+    fetchProductByUrl(productUrl: string): Observable<any> {
         const requestBody = { productUrl };
         const getProductByUrl = `${this.apiUrl}/productUrl`;
-        return this.http.post<any>(getProductByUrl, requestBody);
+        return this.http.post<Product>(getProductByUrl, requestBody);
     }
 }

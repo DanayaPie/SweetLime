@@ -1,4 +1,7 @@
 import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+
+import { Product } from "../models/product";
 
 @Injectable({
     providedIn: 'root'
@@ -6,15 +9,24 @@ import { Injectable } from "@angular/core";
 
 export class SharedService {
     public webList: string[] = [];
+    
+    private productSource = new BehaviorSubject<Product | null>(null);
+    currentProduct = this.productSource.asObservable();
+
     showProductComponent = false;
     supportedProduct = false;
 
+
     setWebList(supportedWebs: any[]): void {
         this.webList = supportedWebs.map(web => web.domainName);
-        console.log('Web List: ', this.webList);
+        // console.log('Web List: ', this.webList);
     }
 
     getWebList(): string[] {
         return this.webList;
+    }
+
+    changeProduct(product: Product ): void {
+        this.productSource.next(product);
     }
 }

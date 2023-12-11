@@ -13,6 +13,7 @@ import { supportedProductCheck } from '../validators/supportedProductCheck';
 })
 export class HeaderComponent {
   searchForm: FormGroup;
+  product: any;
 
   constructor(
     private formBuilder: FormBuilder, 
@@ -27,9 +28,13 @@ export class HeaderComponent {
   onSubmit() {
     const productUrl = this.searchForm.value.productUrl;
 
-    this.productService.getProductByUrlRequest(productUrl).subscribe(
+    this.productService.fetchProductByUrl(productUrl).subscribe(
       (data) => {
         console.log('Produce Retrieved:', data);
+        this.product = data;
+        console.log('Product data - header:', this.product)
+
+        this.sharedService.changeProduct(this.product);
 
         this.sharedService.showProductComponent = true;
         this.sharedService.supportedProduct = false;

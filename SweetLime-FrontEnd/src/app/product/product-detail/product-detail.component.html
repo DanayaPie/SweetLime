@@ -1,6 +1,11 @@
+<h3>{{ product?.productName }}</h3>
 <div class="col-xs-7">
-  <p>Product Info</p>
+  <ul>
+    <li *ngFor="let option of product?.options | keyvalue">
+      {{ option.key }}: {{ option.value }}
+    </li>
+  </ul>
 </div>
 <div class="col-xs-5">
-  <p>Current price</p>
+  <h4>Current price: ${{ product?.newestPrice }}</h4>
 </div>
