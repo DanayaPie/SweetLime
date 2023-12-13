@@ -1,0 +1,38 @@
+.product-list {
+    overflow-x: auto;
+    display: flex;
+    width: 100vw;
+    flex-flow: row nowrap;
+    flex: 1 1 auto;
+    column-gap: 1.5%;
+}
+.product-item {
+    width: 200px;
+    display: flex;
+    flex-flow: row nowrap;
+    flex: 1 1 auto;
+    column-gap: 1.5625%;
+}
+  
+.product-info {
+  margin-left: 10px; /* Adjust as needed */
+}
+
+.product-name {
+  white-space: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px; /* Adjust as needed */
+  word-wrap: break-word;
+}
+
+.product-image {
+  height: 200px;
+  width: 200px;
+  object-fit: cover;
+  position: relative;
+}
+
+.product-price {
+  width: 200px;
+}

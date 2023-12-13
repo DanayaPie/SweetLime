@@ -56,7 +56,10 @@ export class ProductDetailComponent implements OnInit {
         return price.UpdatedDate > latest.UpdatedDate ? price : latest;
       }, priceHistory[0]);
 
-      this.newestPrice = mostRecentPrice.Price / 100; // Convert to dollars
+      if ('Price' in mostRecentPrice) {
+        this.newestPrice = mostRecentPrice.Price / 100; // Convert to dollars
+      }
+      
     }
   }
 }

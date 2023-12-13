@@ -10,8 +10,6 @@ import { StartUpService } from './startup/start-up.service';
 })
 
 export class AppComponent implements OnInit{
-  title = 'SweetLime';
-
   constructor(
     private startUpService: StartUpService,
     public sharedService: SharedService

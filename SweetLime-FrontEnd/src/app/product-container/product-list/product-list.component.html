@@ -1,0 +1,19 @@
+<div class="product-list">
+  <div
+    *ngFor="let product of products"
+    class="product-item"
+    (click)="onProductSelected(product)"
+  >
+    <img
+      class="product-image"
+      [src]="product.imagePath"
+      alt="{{ product.productName }}"
+    />
+    <div class="product-info">
+      <h5 class="product-name">
+        <a>{{ product.productName }}</a>
+      </h5>
+      <p class="product-price">${{ product.newestPrice }}</p>
+    </div>
+  </div>
+</div>
