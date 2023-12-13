@@ -8,7 +8,7 @@ import { Product } from "../models/product";
 })
 
 export class SharedService {
-    public webList: string[] = [];
+    public webList: string[] = ['stylevana.com'];
     
     private productSource = new BehaviorSubject<Product | null>(null);
     currentProduct = this.productSource.asObservable();

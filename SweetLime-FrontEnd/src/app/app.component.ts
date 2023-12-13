@@ -18,14 +18,14 @@ export class AppComponent implements OnInit{
     ) {}
 
   ngOnInit() {
-    this.startUpService.fetchSupportedWebs().subscribe(
-      (supportedWebs) => {
-        this.sharedService.setWebList(supportedWebs);
-        console.log('Data fetched successfully:', supportedWebs);
-      },
-      (error) => {
-        console.error('Error fetching data:', error);
-      }
-    )
+    // this.startUpService.fetchSupportedWebs().subscribe(
+    //   (supportedWebs) => {
+    //     this.sharedService.setWebList(supportedWebs);
+    //     console.log('Data fetched successfully:', supportedWebs);
+    //   },
+    //   (error) => {
+    //     console.error('Error fetching data:', error);
+    //   }
+    // )
   }
 }

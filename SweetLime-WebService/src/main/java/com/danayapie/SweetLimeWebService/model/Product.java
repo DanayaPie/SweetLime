@@ -28,8 +28,8 @@ public class Product {
     @DynamoDBAttribute(attributeName = "PriceHistory")
     private List<Map<String, Long>> priceHistory;
 
-    @DynamoDBAttribute(attributeName = "ImageLocation")
-    private String imageLocation;
+    @DynamoDBAttribute(attributeName = "ImagePath")
+    private String imagePath;
 
     @DynamoDBAttribute(attributeName = "CreatedDate")
     private long createdDate;
@@ -40,13 +40,13 @@ public class Product {
     public Product() {
     }
 
-    public Product(String productId, String productName, String productUrl, Map<String, String> options, List<Map<String, Long>> priceHistory, String imageLocation, long createdDate, long deletedDate) {
+    public Product(String productId, String productName, String productUrl, Map<String, String> options, List<Map<String, Long>> priceHistory, String imagePath, long createdDate, long deletedDate) {
         this.productId = productId;
         this.productName = productName;
         this.productUrl = productUrl;
         this.options = options;
         this.priceHistory = priceHistory;
-        this.imageLocation = imageLocation;
+        this.imagePath = imagePath;
         this.createdDate = createdDate;
         this.deletedDate = deletedDate;
     }
@@ -91,12 +91,12 @@ public class Product {
         this.priceHistory = priceHistory;
     }
 
-    public String getImageLocation() {
-        return imageLocation;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImageLocation(String imageLocation) {
-        this.imageLocation = imageLocation;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public long getCreatedDate() {
