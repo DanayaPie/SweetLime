@@ -1,7 +1,7 @@
 import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 
-import { ProductComponent } from "./product/product.component";
+import { ProductComponent } from "./product-container/product/product.component";
 import { StartUpResolver } from "./startup/start-up.resolver";
 import { SupportedWebComponent } from "./supported-web/supported-web.component";
 

@@ -30,22 +30,23 @@ export class HeaderComponent {
 
     this.productService.fetchProductByUrl(productUrl).subscribe(
       (data) => {
-        console.log('Produce Retrieved:', data);
+        console.log('Header - Produce Retrieved', data);
+
         this.product = data;
-        console.log('Product data - header:', this.product)
+        console.log('Header - Product data', this.product)
 
         this.sharedService.changeProduct(this.product);
 
-        this.sharedService.showProductComponent = true;
-        this.sharedService.supportedProduct = false;
+        this.sharedService.showProductContainer = true;
+        this.sharedService.showSupportedWebError = false;
 
         this.searchForm.reset();
       },
       (error) => {
-        console.error('Error getting product:', error);
+        // console.error('Header - Error getting product:', error);
 
-        this.sharedService.supportedProduct = true;
-        this.sharedService.showProductComponent = false;
+        this.sharedService.showSupportedWebError = true;
+        this.sharedService.showProductContainer = false;
 
         this.searchForm.reset();
       }

@@ -1,0 +1,22 @@
+<div class="product-detail-container">
+  <div class="col image-container">
+    <img
+      class="product-image"
+      [src]="product?.imagePath"
+      alt="{{ product?.productName }}"
+    />
+  </div>
+  <div class="info-container">
+    <h4>{{ product?.productName }}</h4>
+    <div class="col-xs-7">
+      <ul>
+        <li *ngFor="let option of product?.options | keyvalue">
+          {{ option.key }}: {{ option.value }}
+        </li>
+      </ul>
+    </div>
+    <div class="col-xs-5">
+      <h5>Current price: ${{ product?.newestPrice }}</h5>
+    </div>
+  </div>
+</div>

@@ -21,10 +21,10 @@ export class AppComponent implements OnInit{
     // this.startUpService.fetchSupportedWebs().subscribe(
     //   (supportedWebs) => {
     //     this.sharedService.setWebList(supportedWebs);
-    //     console.log('Data fetched successfully:', supportedWebs);
+    //     console.log('AppComponent - Data fetched successfully:', supportedWebs);
     //   },
     //   (error) => {
-    //     console.error('Error fetching data:', error);
+    //     console.error('AppComponent - Error fetching data:', error);
     //   }
     // )
   }

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Product } from '../models/product';
-import { ProductService } from '../services/product.service';
-import { SharedService } from '../services/shared.service';
+import { Product } from '../../models/product';
+import { ProductService } from '../../services/product.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-product',
@@ -21,10 +21,10 @@ export class ProductComponent implements OnInit {
     this.sharedService.currentProduct.subscribe(data => {
       if (data instanceof Array) {
         this.products = data;
-        console.log('Product data - product component:', this.products);
+        console.log('Product - product array', this.products);
       } else if (data instanceof Object){
         this.products = [data];
-        console.log('Product data - product component:', this.products);
+        console.log('Product - product not array', this.products);
       }
     })
   }

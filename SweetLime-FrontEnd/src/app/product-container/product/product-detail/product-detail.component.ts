@@ -16,14 +16,20 @@ interface ProductOption {
 export class ProductDetailComponent implements OnInit {
   @Input() product: Product | undefined;
   productName: string | undefined;
+  productImage: string | null | undefined;
   productOptions: ProductOption[] = [];
   newestPrice: number | undefined = 0;
 
   ngOnInit(): void {
-    console.log('Product data - product-detail:', this.product)
+    console.log('Product-detail - ngOnInit', this.product)
     if (this.product) {
+
       this.productName = this.product.productName;
-      console.log('Product Name:', this.productName);
+      console.log('Product-detail - productName:', this.productName);
+
+      this.productImage = this.product.imagePath;
+      console.log('Product-detail - imagePath', this.productImage);
+
       this.extractOptions();
       this.extractNewestPrice();
     }
@@ -42,7 +48,7 @@ export class ProductDetailComponent implements OnInit {
   private extractNewestPrice(): void {
     const priceHistory = this.product?.priceHistory || [];
 
-    console.log('Price History:', priceHistory);
+    console.log('Product-detail -  priceHistory:', priceHistory);
     
     if (priceHistory.length > 0) {
       // reduce iterates over each element of array, applying a specified callback function
