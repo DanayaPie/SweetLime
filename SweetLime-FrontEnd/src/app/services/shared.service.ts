@@ -13,8 +13,10 @@ export class SharedService {
     private productSource = new BehaviorSubject<Product | null>(null);
     currentProduct = this.productSource.asObservable();
 
-    showProductContainer = false;
     showSupportedWebError = false;
+    showProductContainer = false;
+    showProductList = false;
+    showProductInfo = false;
 
     setWebList(supportedWebs: any[]): void {
         this.webList = supportedWebs.map(web => web.domainName);

@@ -10,22 +10,12 @@ import { SharedService } from '../../services/shared.service';
   styleUrls: ['./product.component.scss']
 })
 
-export class ProductComponent implements OnInit {
-  products: any[] = [];
+export class ProductComponent {
+  @Input() product: Product | undefined;
 
   constructor(
     private sharedService: SharedService
   ) {}
 
-  ngOnInit(): void {
-    this.sharedService.currentProduct.subscribe(data => {
-      if (data instanceof Array) {
-        this.products = data;
-        console.log('Product - product array', this.products);
-      } else if (data instanceof Object){
-        this.products = [data];
-        console.log('Product - product not array', this.products);
-      }
-    })
-  }
+  ngOnInit(): void {}
 }

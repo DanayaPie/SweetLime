@@ -18,7 +18,7 @@ export class StartUpService {
         private sharedService: SharedService
         ) {
             this.apiUrl = this.configService.getApiUrl();
-            this.fetchSupportedWebs().subscribe();
+            // this.fetchSupportedWebs().subscribe();
     }
 
     fetchSupportedWebs(): Observable<String[]> {
@@ -29,7 +29,8 @@ export class StartUpService {
                 console.error('Error fetching supported websites:', error);
                 return of([]); // return empty array
             }),
-            tap(supportedWebs => this.sharedService.setWebList(supportedWebs)) // tap is used to perform the 'setWebList' with the main observable
+            // tap is used to perform the 'setWebList' with the main observable
+            tap(supportedWebs => this.sharedService.setWebList(supportedWebs))
         );
     }
 }

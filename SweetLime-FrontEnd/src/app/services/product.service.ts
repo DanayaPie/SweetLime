@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { ConfigService } from './config.service';
 import { Product } from '../models/product';
 import { oneProductHardCoded } from './hardCoded/one-product-hardcoded';
+import { twoProductHardCoded } from './hardCoded/two-product-hardcoded';
 
 @Injectable({
     providedIn: 'root'
