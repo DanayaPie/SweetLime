@@ -35,11 +35,11 @@ export class ProductService {
                             productId: productData.productId,
                             productName: productData.productName,
                             productUrl: productData.productUrl,
-                            createdDate: productData.createdDate,
-                            deletedDate: productData.deleteDate,
+                            createdDate: this.convertEpochToLocalDate(productData.createdDate),
+                            deletedDate: this.convertEpochToLocalDate(productData.deleteDate),
                             imagePath: productData.imagePath,
                             options: this.extractOptions(productData.options),
-                            priceHistory: productData.priceHistory,
+                            priceHistory: this.convertPriceHistory(productData.priceHistory),
                             newestPrice: this.extractNewestPrice(productData.priceHistory)
                         };
     
@@ -53,7 +53,11 @@ export class ProductService {
         );
     }
 
-    extractOptions(optionsData: any): { [key: string]: string; } {
+    private convertEpochToLocalDate(epoch: number): string {
+        return epoch ? new Date(epoch * 1000).toLocaleDateString() : '';
+    }
+
+    private extractOptions(optionsData: any): { [key: string]: string; } {
         // map all key and value from options
         return Object.entries(optionsData).reduce((result: { [key: string]: string}, [key, value]) => {
             result[key] = String(value);
@@ -61,7 +65,16 @@ export class ProductService {
         }, {});
     }
 
-    extractNewestPrice(priceHistoryData: any[]): number {
+    private convertPriceHistory(priceHistoryData: any[]): any[] {
+        return priceHistoryData.map((priceData) => {
+            return {
+                Price: priceData.Price / 100,
+                UpdatedDate: this.convertEpochToLocalDate(priceData.UpdatedDate),
+            };
+        });
+    }
+
+    private extractNewestPrice(priceHistoryData: any[]): number {
         if (priceHistoryData.length > 0) {
             // reduce iterates over each element of array, applying a specified callback function
             const mostRecentPrice = priceHistoryData.reduce((latest, price) => {
@@ -70,7 +83,7 @@ export class ProductService {
                     It compares the UpdatedDate of each 'price' object with the UpdatedDate of the 'latest' object.
                     This effectively find the object with the maximum UpdatedDate.
                 */
-                return price.updatedDate > latest.UpdatedDate ? price : latest;
+                return price.UpdatedDate > latest.UpdatedDate ? price : latest;
             }, priceHistoryData[0]);
 
             return mostRecentPrice.Price / 100;
@@ -80,7 +93,9 @@ export class ProductService {
         return 0;
     }
 
-    // hardcoded products
+    /* 
+        hardcoded products 
+    */ 
     // fetchProductByUrl(productUrl: string): Observable<Product[]> {
     //     // For testing purposes, return hardcoded data based on the provided productUrl
     //     if (productUrl.includes('haruharu-wonder')) {
