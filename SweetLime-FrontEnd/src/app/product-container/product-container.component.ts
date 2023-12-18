@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { SharedService } from '../services/shared.service';
+import { Product } from '../models/product';
 
 @Component({
   selector: 'app-product-container',
@@ -9,7 +10,7 @@ import { SharedService } from '../services/shared.service';
 })
 
 export class ProductContainerComponent implements OnInit {
-  products: any[] = [];
+  products: Product[] = [];
 
   constructor(
     public sharedService: SharedService

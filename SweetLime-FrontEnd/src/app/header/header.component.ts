@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ProductService } from '../services/product.service';
 import { SharedService } from '../services/shared.service';
-import { supportedProductCheck } from '../validators/supportedProductCheck';
+import { supportedWebsiteCheck } from '../validators/supportedProductCheck';
 
 @Component({
   selector: 'app-header',
@@ -21,36 +21,47 @@ export class HeaderComponent {
     private sharedService: SharedService,
   ) {
     this.searchForm = this.formBuilder.group({
-      productUrl: ['', [Validators.required, supportedProductCheck(this.sharedService)]]
+      productUrl: ['', [Validators.required, supportedWebsiteCheck(this.sharedService)]]
     })
   }
 
   onSubmit() {
-    const productUrl = this.searchForm.value.productUrl;
+    console.log("Header - onSubmit");
 
-    this.productService.fetchProductByUrl(productUrl).subscribe(
-      (data) => {
-        console.log('Header - Produce Retrieved', data);
+    if (this.searchForm.valid) {
 
-        this.product = data;
-        console.log('Header - Product data', this.product)
+      this.sharedService.reset();
+      const productUrl = this.searchForm.value.productUrl.trim();
 
-        this.sharedService.changeProduct(this.product);
-
-        this.sharedService.showProductContainer = true;
-        this.sharedService.showSupportedWebError = false;
-
-        this.searchForm.reset();
-      },
-      (error) => {
-        // console.error('Header - Error getting product:', error);
-
-        this.sharedService.showSupportedWebError = true;
-        this.sharedService.showProductContainer = false;
-
-        this.searchForm.reset();
-      }
-
-    )
+      this.productService.fetchProductByUrl(productUrl).subscribe(
+        (data) => {
+          console.log('Header - Product Retrieved', data);
+  
+          this.product = data;
+          console.log('Header - Product data', this.product);
+  
+          this.sharedService.changeProduct(this.product);
+  
+          this.sharedService.showProductContainer = true;
+          this.sharedService.showSupportedWebError = false;
+  
+          this.searchForm.reset();
+        },
+        (error) => {
+          console.error('Header - Error getting product:', error);
+  
+          this.sharedService.showSupportedWebError = true;
+          this.sharedService.showProductContainer = false;
+          this.sharedService.changeProduct(null);
+          
+          this.searchForm.reset();
+        }
+      );
+    } else {
+      // Handle form validation errors, if any
+      this.sharedService.showSupportedWebError = true;
+      this.sharedService.showProductContainer = false;
+      this.searchForm.markAllAsTouched(); // Mark all form controls as touched to show validation messages
+    }
   }
 }

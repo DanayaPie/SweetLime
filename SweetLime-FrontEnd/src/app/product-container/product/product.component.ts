@@ -14,8 +14,5 @@ export class ProductComponent {
   @Input() product: Product | undefined;
 
   constructor(
-    private sharedService: SharedService
   ) {}
-
-  ngOnInit(): void {}
 }

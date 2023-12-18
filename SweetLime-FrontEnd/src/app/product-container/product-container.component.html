@@ -1,8 +1,6 @@
-<div *ngFor="let product of products">
-  <div *ngIf="sharedService.showProductList">
-    <app-product-list></app-product-list>
-  </div>
-  <div *ngIf="sharedService.showProductInfo">
-    <app-product> </app-product>
-  </div>
+<div *ngIf="sharedService.showProductList">
+  <app-product-list [products]="products"></app-product-list>
+</div>
+<div *ngIf="sharedService.showProductInfo">
+  <app-product [product]="products[0]"> </app-product>
 </div>

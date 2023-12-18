@@ -27,7 +27,15 @@ export class SharedService {
         return this.webList;
     }
 
-    changeProduct(product: Product ): void {
+    changeProduct(product: Product | null): void {
         this.productSource.next(product);
+    }
+
+    reset() {
+        this.showProductContainer = false;
+        this.showProductList = false;
+        this.showProductInfo = false;
+        this.showSupportedWebError = false;
+        this.changeProduct(null);
     }
 }
