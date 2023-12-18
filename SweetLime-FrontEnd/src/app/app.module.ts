@@ -10,7 +10,6 @@ import { ProductDetailComponent } from './product-container/product/product-deta
 import { PriceHistoryComponent } from './product-container/product/price-history/price-history.component';
 import { FooterComponent } from './footer/footer.component';
 import { ConfigService } from './services/config.service';
-import { StartUpService } from './startup/start-up.service';
 import { SupportedWebComponent } from './supported-web/supported-web.component';
 import { SuggestedProductComponent } from './suggested-product/suggested-product.component';
 import { ProductContainerComponent } from './product-container/product-container.component';
@@ -36,7 +35,6 @@ import { ProductListComponent } from './product-container/product-list/product-l
   ],
   providers: [
     ConfigService,
-    StartUpService
   ],
   bootstrap: [
     AppComponent

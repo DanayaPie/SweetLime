@@ -40,7 +40,7 @@ export class HeaderComponent {
           this.product = data;
           console.log('Header - Product data', this.product);
   
-          this.sharedService.changeProduct(this.product);
+          this.sharedService.onSearchProduct(this.product);
   
           this.sharedService.showProductContainer = true;
           this.sharedService.showSupportedWebError = false;
@@ -52,7 +52,7 @@ export class HeaderComponent {
   
           this.sharedService.showSupportedWebError = true;
           this.sharedService.showProductContainer = false;
-          this.sharedService.changeProduct(null);
+          this.sharedService.onSearchProduct(null);
           
           this.searchForm.reset();
         }

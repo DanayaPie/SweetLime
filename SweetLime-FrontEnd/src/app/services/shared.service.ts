@@ -2,13 +2,14 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 
 import { Product } from "../models/product";
+import { ConfigService } from "./config.service";
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class SharedService {
-    public webList: string[] = ['stylevana.com'];
+    public webList: string[] = this.configService.getSupportedWebsites();
     
     private productSource = new BehaviorSubject<Product | null>(null);
     currentProduct = this.productSource.asObservable();
@@ -18,16 +19,15 @@ export class SharedService {
     showProductList = false;
     showProductInfo = false;
 
-    setWebList(supportedWebs: any[]): void {
-        this.webList = supportedWebs.map(web => web.domainName);
-        // console.log('Web List: ', this.webList);
-    }
+    constructor(
+        private configService: ConfigService
+    ) {}
 
     getWebList(): string[] {
         return this.webList;
     }
 
-    changeProduct(product: Product | null): void {
+    onSearchProduct(product: Product | null): void {
         this.productSource.next(product);
     }
 
@@ -36,6 +36,6 @@ export class SharedService {
         this.showProductList = false;
         this.showProductInfo = false;
         this.showSupportedWebError = false;
-        this.changeProduct(null);
+        this.onSearchProduct(null);
     }
 }
