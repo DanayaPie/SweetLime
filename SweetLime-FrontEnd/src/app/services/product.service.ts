@@ -97,20 +97,27 @@ export class ProductService {
         hardcoded products 
     */ 
     // fetchProductByUrl(productUrl: string): Observable<Product[]> {
+    //     console.log("Product Service - ProductUrl:", productUrl);
+    
     //     // For testing purposes, return hardcoded data based on the provided productUrl
-    //     if (productUrl.includes('numbuz:n')) {
-    //       return of(oneProductHardCoded);
-    //     } else if (productUrl.includes('beauty-of-joseon')) {
-    //       return of(twoProductHardCoded);
+    //     if (productUrl.toLowerCase().includes('numbuz-n')) {
+
+    //         console.log("Product Service - Using oneProductHardCoded");
+    //         return of(oneProductHardCoded);
+
+    //     } else if (productUrl.toLowerCase().includes('beauty-of-joseon')) {
+    //         console.log("Product Service - Using twoProductHardCoded");
+    //         return of(twoProductHardCoded);
     //     }
     
-    //     // If the productUrl doesn't match any hardcoded data, you can make a request to the backend
-    //     // Replace the following line with the actual backend request logic
+    //     // If you want to use the backend API, uncomment the following lines
     //     // const requestBody = { productUrl };
     //     // const getProductByUrl = `${this.apiUrl}/productUrl`;
+    
     //     // return this.http.post<Product[]>(getProductByUrl, requestBody);
-        
+    
     //     // For simplicity, return an empty array if no hardcoded data or backend request is available
+    //     console.log("No matching condition, using backend logic");
     //     return of([]);
     // }
 }

@@ -15,7 +15,7 @@ export class SupportedWebsiteCheckService {
     }
 
     isSupportedWebsite(url: string): boolean {
-        const domain = this.extractDomain(url);
+        const domain = this.extractDomain(url.toLowerCase());
         return this.supportedWebsites?.includes(domain);
     }
 
