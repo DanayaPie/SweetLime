@@ -98,7 +98,7 @@ export class ProductService {
     */ 
     // fetchProductByUrl(productUrl: string): Observable<Product[]> {
     //     // For testing purposes, return hardcoded data based on the provided productUrl
-    //     if (productUrl.includes('haruharu-wonder')) {
+    //     if (productUrl.includes('numbuz:n')) {
     //       return of(oneProductHardCoded);
     //     } else if (productUrl.includes('beauty-of-joseon')) {
     //       return of(twoProductHardCoded);
