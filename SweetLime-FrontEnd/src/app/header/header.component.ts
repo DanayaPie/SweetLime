@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ProductService } from '../services/product.service';
 import { SharedService } from '../services/shared.service';
-import { supportedWebsiteCheck } from '../validators/supportedProductCheck';
+import { supportedWebsiteCheck } from '../validators/supportedWebsiteCheck';
 
 @Component({
   selector: 'app-header',
