@@ -9,15 +9,16 @@ import { ConfigService } from "./config.service";
 })
 
 export class SharedService {
-    public webList: string[] = this.configService.getSupportedWebsites();
-    
-    private productSource = new BehaviorSubject<Product | null>(null);
-    currentProduct = this.productSource.asObservable();
-
     showSupportedWebError = false;
     showProductContainer = false;
     showProductList = false;
     showProductInfo = false;
+    supportedWebErrorMessage: string = '';
+
+    public webList: string[] = this.configService.getSupportedWebsites();
+    
+    private productSource = new BehaviorSubject<Product | null>(null);
+    currentProduct = this.productSource.asObservable();
 
     constructor(
         private configService: ConfigService
@@ -31,7 +32,7 @@ export class SharedService {
         this.productSource.next(product);
     }
 
-    reset() {
+    resetSearchProductFrom() {
         this.showProductContainer = false;
         this.showProductList = false;
         this.showProductInfo = false;

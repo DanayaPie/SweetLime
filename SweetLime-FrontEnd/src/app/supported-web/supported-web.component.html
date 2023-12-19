@@ -1,6 +1,12 @@
 <div>
-  <p *ngIf="sharedService.showSupportedWebError" style="color: red">
-    Product URL must be from supported websites.
+  <p
+    *ngIf="
+      sharedService.showSupportedWebError &&
+      sharedService.supportedWebErrorMessage
+    "
+    style="color: red"
+  >
+    {{ sharedService.supportedWebErrorMessage }}
   </p>
   <p>Supported Websites:</p>
   <ul>

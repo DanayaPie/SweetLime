@@ -14,6 +14,7 @@ import { SupportedWebComponent } from './supported-web/supported-web.component';
 import { SuggestedProductComponent } from './suggested-product/suggested-product.component';
 import { ProductContainerComponent } from './product-container/product-container.component';
 import { ProductListComponent } from './product-container/product-list/product-list.component';
+import { SupportedWebsiteCheckService } from './services/supported-website-check.service';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ProductListComponent } from './product-container/product-list/product-l
   ],
   providers: [
     ConfigService,
+    SupportedWebsiteCheckService
   ],
   bootstrap: [
     AppComponent
