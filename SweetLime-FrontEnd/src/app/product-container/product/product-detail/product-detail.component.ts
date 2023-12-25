@@ -19,6 +19,7 @@ export class ProductDetailComponent implements OnInit {
   productImage: string | null | undefined;
   productOptions: ProductOption[] = [];
   newestPrice: number | undefined = 0;
+  productWebsite: string | undefined;
 
   ngOnInit(): void {
     console.log('Product-detail - ngOnInit', this.product)
@@ -32,6 +33,7 @@ export class ProductDetailComponent implements OnInit {
 
       this.extractOptions();
       this.extractNewestPrice();
+      this.extractWebDomain();
     }
   }
 
@@ -65,4 +67,23 @@ export class ProductDetailComponent implements OnInit {
       this.newestPrice = mostRecentPrice.Price / 100; // Convert to dollars
     }
   }
+
+  private extractWebDomain(): void {
+    const url = new URL(this.product?.productUrl ?? "");
+    const domainParts = url.hostname.split('.');
+
+    // Exclude the first part if it's 'www' and get the second part (main domain)
+    this.productWebsite = domainParts.length > 1 && domainParts[0].toLowerCase() === 'www'
+      // regex matches first word character in the string and replace it with uppercase
+      ? domainParts[1].replace(/^\w/, match => match.toUpperCase())
+      : domainParts[0].replace(/^\w/, match => match.toUpperCase());
+  }
+
+  onOpenProductWebsite(): void {
+    
+    if (this.product && this.product.productUrl) {
+      window.open(this.product.productUrl, '_blank');
+    }
+  }
 }
+
