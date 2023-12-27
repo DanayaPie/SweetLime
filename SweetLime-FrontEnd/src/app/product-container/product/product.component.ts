@@ -10,7 +10,4 @@ import { Product } from '../../models/product';
 
 export class ProductComponent {
   @Input() product: Product | undefined;
-
-  constructor(
-  ) {}
 }

@@ -15,6 +15,7 @@ interface ProductOption {
 
 export class ProductDetailComponent implements OnInit {
   @Input() product: Product | undefined;
+  
   productName: string | undefined;
   productImage: string | null | undefined;
   productOptions: ProductOption[] = [];

@@ -32,7 +32,7 @@ import { SupportedWebsiteCheckService } from './services/supported-website-check
   imports: [
     BrowserModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     ConfigService,
