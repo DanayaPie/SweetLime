@@ -25,30 +25,31 @@
     margin-top: 20px;
 }
 
-.product-name-cell {
-    flex: 3;
-}
-
-.current-price-cell {
-    flex: 1;
-}
-
 .website-name {
     margin-bottom: .25rem;
     font-size: 1.75rem;
     color: #4b4b4b;
 }
 
+.product-name-cell {
+    flex: 3;
+}
+
 .product-name{
     font-size: 2.5rem;
     font-weight: bold;
     white-space: normal;
+    color: #e7a239;
+}
+
+.current-price-cell {
+    flex: 1;
 }
 
 .current-price {
     margin-bottom: 1rem;
     font-size: 2rem;
-    color: #339e33;
+    color: #70af1d;
 }
 
 .details {

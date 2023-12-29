@@ -1,7 +1,41 @@
-<!-- <div>
-  <canvas id="priceHistoryChart" width="400" height="200"></canvas>
-</div> -->
-<canvas id="PriceHistory">{{ chart }}</canvas>
-<!-- <div style="display: block">
-  <canvas #priceHistoryChart></canvas>
-</div> -->
+<div class="price-history-container">
+  <div class="price-history">
+    <p>Price History:</p>
+  </div>
+  <div class="time-period">
+    <p style="font-weight: bold">Time Period:</p>
+    <p
+      [ngClass]="{ selected: isSelectedTimeRange('1') }"
+      (click)="onTimeRangeClick('1')"
+    >
+      1 Month
+    </p>
+    <p
+      [ngClass]="{ selected: isSelectedTimeRange('3') }"
+      (click)="onTimeRangeClick('3')"
+    >
+      3 Months
+    </p>
+    <p
+      [ngClass]="{ selected: isSelectedTimeRange('6') }"
+      (click)="onTimeRangeClick('6')"
+    >
+      6 Months
+    </p>
+    <p
+      [ngClass]="{ selected: isSelectedTimeRange('12') }"
+      (click)="onTimeRangeClick('12')"
+    >
+      1 Year
+    </p>
+    <p
+      [ngClass]="{ selected: isSelectedTimeRange('all') }"
+      (click)="onTimeRangeClick('all')"
+    >
+      All
+    </p>
+  </div>
+  <div class="price-history-chart">
+    <canvas id="PriceHistory">{{ priceHistoryChart }}</canvas>
+  </div>
+</div>
