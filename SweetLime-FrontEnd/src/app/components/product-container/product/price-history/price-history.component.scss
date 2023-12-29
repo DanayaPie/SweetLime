@@ -4,7 +4,7 @@
 }
 
 .price-history {
-    margin-bottom:  10px;
+    margin-bottom: 10px;
     font-size: 1.75rem;
     color: #575757;
     font-weight: bold;
@@ -16,19 +16,17 @@
     margin-bottom: 10px;
 
     p {
-      cursor: pointer;
-      padding: 5px;
-  
-      &.selected {
+        cursor: pointer;
+        padding: 5px;
+    }
+
+    p.selected {
         font-weight: bold;
-      }
     }
 }
 
-.period {
-    p {
-        font-weight: bold;
-    }
+.range {
+    font-weight: bold;
 }
 
 .price-history-chart {
