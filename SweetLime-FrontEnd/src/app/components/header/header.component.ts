@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
-import { ProductService } from '../services/product.service';
-import { SharedService } from '../services/shared.service';
+import { ProductService } from '../../services/product.service';
+import { SharedService } from '../../services/shared.service';
 import { SupportedWebComponent } from '../supported-web/supported-web.component';
-import { SupportedWebsiteCheckService } from '../services/supported-website-check.service';
+import { SupportedWebsiteCheckService } from '../../services/supported-website-check.service';
 
 @Component({
   selector: 'app-header',

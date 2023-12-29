@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { SharedService } from '../services/shared.service';
+import { SharedService } from '../../services/shared.service';
 
 interface RouteData {
   supportedWebs: string[];

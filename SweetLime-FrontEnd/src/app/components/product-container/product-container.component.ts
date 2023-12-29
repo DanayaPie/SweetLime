@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { SharedService } from '../services/shared.service';
-import { Product } from '../models/product';
+import { Product } from 'src/app/models/product';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-product-container',
