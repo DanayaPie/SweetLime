@@ -24,66 +24,66 @@ export class ProductService {
     /* 
         hardcoded products 
     */ 
-    // fetchProductByUrl(productUrl: string): Observable<Product[]> {
-    //     console.log("Product Service - ProductUrl:", productUrl);
+    fetchProductByUrl(productUrl: string): Observable<Product[]> {
+        console.log("Product Service - ProductUrl:", productUrl);
     
-    //     // For testing purposes, return hardcoded data based on the provided productUrl
-    //     if (productUrl.toLowerCase().includes('numbuz-n')) {
+        // For testing purposes, return hardcoded data based on the provided productUrl
+        if (productUrl.toLowerCase().includes('numbuz-n')) {
 
-    //         console.log("Product Service - Using oneProductHardCoded");
-    //         return of(oneProductHardCoded);
+            console.log("Product Service - Using oneProductHardCoded");
+            return of(oneProductHardCoded);
 
-    //     } else if (productUrl.toLowerCase().includes('beauty-of-joseon')) {
-    //         console.log("Product Service - Using twoProductHardCoded");
-    //         return of(twoProductHardCoded);
-    //     }
+        } else if (productUrl.toLowerCase().includes('beauty-of-joseon')) {
+            console.log("Product Service - Using twoProductHardCoded");
+            return of(twoProductHardCoded);
+        }
     
-    //     // If you want to use the backend API, uncomment the following lines
-    //     // const requestBody = { productUrl };
-    //     // const getProductByUrl = `${this.apiUrl}/productUrl`;
+        // If you want to use the backend API, uncomment the following lines
+        // const requestBody = { productUrl };
+        // const getProductByUrl = `${this.apiUrl}/productUrl`;
     
-    //     // return this.http.post<Product[]>(getProductByUrl, requestBody);
+        // return this.http.post<Product[]>(getProductByUrl, requestBody);
     
-    //     // For simplicity, return an empty array if no hardcoded data or backend request is available
-    //     console.log("No matching condition, using backend logic");
-    //     return of([]);
-    // }
+        // For simplicity, return an empty array if no hardcoded data or backend request is available
+        console.log("No matching condition, using backend logic");
+        return of([]);
+    }
 
     /*
         fetch product from database
     */
-    fetchProductByUrl(productUrl: string): Observable<Product[]> {
-        const requestBody = { productUrl };
-        const getProductByUrl = `${this.apiUrl}/productUrl`;
+    // fetchProductByUrl(productUrl: string): Observable<Product[]> {
+    //     const requestBody = { productUrl };
+    //     const getProductByUrl = `${this.apiUrl}/productUrl`;
 
-        return this.http.post<Product>(getProductByUrl, requestBody).pipe(
-            map((data: any) => {
-                if (data && Array.isArray(data)) {
-                    return data.map((productData: any) => {
+    //     return this.http.post<Product>(getProductByUrl, requestBody).pipe(
+    //         map((data: any) => {
+    //             if (data && Array.isArray(data)) {
+    //                 return data.map((productData: any) => {
 
-                        // map productData to Product model
-                        const product: Product = {
-                            productId: productData.productId,
-                            productName: productData.productName,
-                            productUrl: productData.productUrl,
-                            createdDate: new Date(this.convertEpochToLocalDate(productData.createdDate)),
-                            deletedDate: new Date(this.convertEpochToLocalDate(productData.deleteDate)),
-                            imagePath: productData.imagePath,
-                            options: this.extractOptions(productData.options),
-                            priceHistory: this.convertPriceHistory(productData.priceHistory),
-                            newestPrice: this.extractNewestPrice(productData.priceHistory),
-                            webdomain: this.extractWebdomain(productData.productUrl)
-                        };
+    //                     // map productData to Product model
+    //                     const product: Product = {
+    //                         productId: productData.productId,
+    //                         productName: productData.productName,
+    //                         productUrl: productData.productUrl,
+    //                         createdDate: new Date(this.convertEpochToLocalDate(productData.createdDate)),
+    //                         deletedDate: new Date(this.convertEpochToLocalDate(productData.deleteDate)),
+    //                         imagePath: productData.imagePath,
+    //                         options: this.extractOptions(productData.options),
+    //                         priceHistory: this.convertPriceHistory(productData.priceHistory),
+    //                         newestPrice: this.extractNewestPrice(productData.priceHistory),
+    //                         webdomain: this.extractWebdomain(productData.productUrl)
+    //                     };
     
-                        return product;
-                    });
-                } else {
-                    console.error('Invalid response format:', data);
-                    return [];
-                }
-            })
-        );
-    }
+    //                     return product;
+    //                 });
+    //             } else {
+    //                 console.error('Invalid response format:', data);
+    //                 return [];
+    //             }
+    //         })
+    //     );
+    // }
 
     private convertEpochToLocalDate(epoch: number): string {
         return epoch ? new Date(epoch * 1000).toLocaleDateString() : '';
@@ -126,14 +126,19 @@ export class ProductService {
     }
 
     
-  private extractWebdomain(productUrl: string): string {
-    const url = new URL(productUrl ?? "");
-    const domainParts = url.hostname.split('.');
+    private extractWebdomain(productUrl: string): string {
+        const url = new URL(productUrl ?? "");
+        const domainParts = url.hostname.split('.');
 
-    // Exclude the first part if it's 'www' and get the second part (main domain)
-    return domainParts.length > 1 && domainParts[0].toLowerCase() === 'www'
-      // regex matches first word character in the string and replace it with uppercase
-      ? domainParts[1].replace(/^\w/, match => match.toUpperCase())
-      : domainParts[0].replace(/^\w/, match => match.toUpperCase());
-  }
+        // Exclude the first part if it's 'www' and get the second part (main domain)
+        return domainParts.length > 1 && domainParts[0].toLowerCase() === 'www'
+        // regex matches first word character in the string and replace it with uppercase
+        ? domainParts[1].replace(/^\w/, match => match.toUpperCase())
+        : domainParts[0].replace(/^\w/, match => match.toUpperCase());
+    }
+
+    getProductById(productId: string): Observable<Product> {
+        const getProductByIdUrl = `${this.apiUrl}/products/${productId}`;
+        return this.http.get<Product>(getProductByIdUrl);
+    }
 }

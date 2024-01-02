@@ -38,5 +38,6 @@ export class SharedService {
         this.showProductInfo = false;
         this.showSupportedWebError = false;
         this.onSearchProduct(null);
+        // this.productSource.next(null); // set the current product to null
     }
 }

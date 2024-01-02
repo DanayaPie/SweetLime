@@ -1,7 +1,9 @@
 <div class="product-list-container">
   <div *ngFor="let product of products" class="product-item">
-    <img [src]="product.imagePath" alt="{{ product.productName }}" />
-    <p class="product-name">{{ product.productName }}</p>
+    <a [routerLink]="['/product', product.productId]">
+      <img [src]="product.imagePath" alt="{{ product.productName }}" />
+      <p class="product-name">{{ product.productName }}</p>
+    </a>
     <div class="details">
       <ul>
         <li *ngFor="let option of product?.options | keyvalue">

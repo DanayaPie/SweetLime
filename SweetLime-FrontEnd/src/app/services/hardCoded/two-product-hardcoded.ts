@@ -23,7 +23,7 @@ export const twoProductHardCoded: Product[] = [
 
   },
   {
-    productId: '3dbff070-572b-4a21-8c73-95666d8b3cb7',
+    productId: '3dbff070-572b-4a21-8c73-95351a3brdadsf7',
     productName: 'BEAUTY OF JOSEON - Relief Sun : Rice + Probiotic SPF50+ PA++++ - 50ml',
     productUrl: 'https://www.stylevana.com/en_US/beauty-of-joseon-relief-sun-rice-probiotic-50ml.html',
     createdDate: new Date('1/20/1970'),

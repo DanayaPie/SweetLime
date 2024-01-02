@@ -1,11 +1,9 @@
 <app-header></app-header>
 <div class="container" id="content_container">
-  <ng-container *ngIf="!sharedService.showProductContainer">
-    <app-supported-web> </app-supported-web>
-  </ng-container>
-  <ng-container *ngIf="sharedService.showProductContainer">
-    <app-product-container></app-product-container>
-  </ng-container>
+  <app-supported-web
+    *ngIf="!sharedService.showProductContainer"
+  ></app-supported-web>
+  <router-outlet *ngIf="sharedService.showProductContainer"></router-outlet>
 </div>
 <app-spacer></app-spacer>
 <div class="container" id="suggested_product_container">

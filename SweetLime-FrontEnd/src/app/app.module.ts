@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { ConfigService } from './services/config.service';
@@ -35,10 +37,12 @@ import { SpacerComponent } from './components/common/spacer/spacer.component';
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
+    RouterModule,
+    AppRoutingModule,
   ],
   providers: [
     ConfigService,
-    SupportedWebsiteCheckService
+    SupportedWebsiteCheckService,
   ],
   bootstrap: [
     AppComponent
