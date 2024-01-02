@@ -1,0 +1,58 @@
+.product-list-container {
+    display: flex;
+    justify-content: center; // Center items horizontally
+    overflow-x: auto; // enable horizontal scrolling
+    white-space: nowrap; // prevent wrapping to new lines
+    gap: 10px;
+    padding: 10px;
+}
+  
+.product-item {
+    max-width: 200px;
+    min-width: 200px;
+    margin-right: 5px; // spacing between items
+    flex-shrink: 0; // prevent flex items from shrinking
+    border: 1px solid #ccc; /* Add a border to each item */
+    padding: 5px; /* Add padding to create space between content and border */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.product-item img {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.product-item p {
+    text-align: center;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    white-space: normal; // reset white-space property
+}
+
+.product-name {
+    font-weight: bold;
+    font-size: 1.75rem;
+    color: #e7a239;
+}
+
+.details {
+    text-align: left;
+    margin-top: 10px;
+}
+
+ul {
+    margin-bottom: 10px;
+    padding-left: 15px; // Adjust the padding-left to reduce space with the list bullets
+    list-style-position: inside; // Move the list bullets inside
+}
+
+li {
+    list-style-type: disc;
+    margin-bottom: 5px;
+}
+
+.price-info {
+    font-size: 2rem;
+    color: #70af1d;
+}

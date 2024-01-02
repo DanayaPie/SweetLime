@@ -1,2 +1,16 @@
-<p>product-list works!</p>
-<div *ngOfr="let product of products"></div>
+<div class="product-list-container">
+  <div *ngFor="let product of products" class="product-item">
+    <img [src]="product.imagePath" alt="{{ product.productName }}" />
+    <p class="product-name">{{ product.productName }}</p>
+    <div class="details">
+      <ul>
+        <li *ngFor="let option of product?.options | keyvalue">
+          {{ option.key }}: {{ option.value }}
+        </li>
+      </ul>
+    </div>
+    <div class="price-info">
+      <p class="current-price">${{ product?.newestPrice }}</p>
+    </div>
+  </div>
+</div>
