@@ -1,0 +1,13 @@
+.spacer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .line {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent 20%, #8d8d8d 30%, #8d8d8d 70%, transparent 80%);
+    width: 90%;
+  }
+  
