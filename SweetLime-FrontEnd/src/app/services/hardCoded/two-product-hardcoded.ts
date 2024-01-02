@@ -19,6 +19,8 @@ export const twoProductHardCoded: Product[] = [
       { Price: 3.29, UpdatedDate: new Date('12/15/2023') },
     ],
     newestPrice: 3.29,
+    webdomain: 'Stylevana'
+
   },
   {
     productId: '3dbff070-572b-4a21-8c73-95666d8b3cb7',
@@ -28,7 +30,7 @@ export const twoProductHardCoded: Product[] = [
     deletedDate: null,
     imagePath: 'https://cdn.stylevana.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/b/e/beauty-of-joseon-relief-sun-rice-probiotic-50ml-318.jpg',
     options: {
-      Size: '10ml',
+      Size: '50ml',
       Color: 'N',
     },
     priceHistory: [
@@ -37,6 +39,7 @@ export const twoProductHardCoded: Product[] = [
       { Price: 12.89, UpdatedDate: new Date('11/29/2023') },
       { Price: 13.29, UpdatedDate: new Date('12/15/2023') },
     ],
-    newestPrice: 3.29,
+    newestPrice: 13.29,
+    webdomain: 'Stylevana'
   },
 ];

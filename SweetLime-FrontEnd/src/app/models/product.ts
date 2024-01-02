@@ -13,6 +13,7 @@ export interface Product {
         UpdatedDate: Date;
     }[];
     newestPrice: number;
+    webdomain: string;
 }
 
 // Function to format a Date to short date (day/month/year)

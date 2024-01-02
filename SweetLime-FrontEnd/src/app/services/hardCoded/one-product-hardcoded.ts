@@ -24,5 +24,6 @@ export const oneProductHardCoded: Product[] = [
       { Price: 14.09, UpdatedDate: new Date("12/15/2023") },
     ],
     newestPrice: 14.09,
+    webdomain: 'Stylevana'
   }
 ];

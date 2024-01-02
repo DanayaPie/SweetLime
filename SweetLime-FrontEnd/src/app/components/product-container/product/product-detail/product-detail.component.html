@@ -9,7 +9,7 @@
   <div class="col info-container">
     <div class="product-content">
       <div class="cell product-name-cell">
-        <p class="website-name">{{ this.productWebsite }} Product</p>
+        <p class="website-name">{{ this.productWebDomain }} Product</p>
         <p class="product-name">
           {{ product?.productName }}
         </p>
@@ -24,7 +24,7 @@
       <div class="cell price-info-cell">
         <p class="current-price">Price: ${{ product?.newestPrice }}</p>
         <button class="product-link-button" (click)="onOpenProductWebsite()">
-          View on {{ this.productWebsite }}
+          View on {{ this.productWebDomain }}
         </button>
       </div>
     </div>
