@@ -23,14 +23,14 @@ import { SpacerComponent } from './components/common/spacer/spacer.component';
   declarations: [
     AppComponent,
     HeaderComponent,
-    ProductComponent,
-    ProductDetailComponent,
-    PriceHistoryComponent,
     FooterComponent,
     SupportedWebComponent,
     SuggestedProductComponent,
     ProductContainerComponent,
     ProductListComponent,
+    ProductComponent,
+    ProductDetailComponent,
+    PriceHistoryComponent,
     SpacerComponent
   ],
   imports: [

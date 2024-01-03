@@ -1,5 +1,9 @@
-<div *ngIf="product">
-  <app-product-detail [product]="product"></app-product-detail>
+<div *ngIf="productId$ | async as productId">
+  <app-product-detail
+    [product]="productService.getProductFromStateById(productId)"
+  ></app-product-detail>
   <app-spacer></app-spacer>
-  <app-price-history [product]="product"></app-price-history>
+  <app-price-history
+    [product]="productService.getProductFromStateById(productId)"
+  ></app-price-history>
 </div>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map, of, throwError } from 'rxjs';
 
 import { ConfigService } from './config.service';
 import { Product } from '../models/product';
@@ -35,33 +35,36 @@ export class ProductService {
         const cachedProduct = this.getProductFromStateByUrl(productUrl);
 
         if (cachedProduct) {
-            
             console.log("Product Service - using cached product from state");
             return of([cachedProduct]);
-
         } else {
             console.log("Product Service - fetching hardcoded product");
 
-            if (productUrl.toLowerCase().includes('numbuz-n')) {
+            let productObservable: Observable<Product[]>;
 
+            if (productUrl.toLowerCase().includes('numbuz-n')) {
                 console.log("Product Service - Using oneProductHardCoded");
-                return of(oneProductHardCoded);
+                productObservable = of(oneProductHardCoded);
     
             } else if (productUrl.toLowerCase().includes('beauty-of-joseon')) {
                 console.log("Product Service - Using twoProductHardCoded");
-                return of(twoProductHardCoded);
+                productObservable =  of(twoProductHardCoded);
+            } else {
+                console.error("No matching condition and product not found in client state");
+                return throwError("Product not found");
             }
-        }
 
-        // If you want to use the backend API, uncomment the following lines
-        // const requestBody = { productUrl };
-        // const getProductByUrl = `${this.apiUrl}/productUrl`;
-    
-        // return this.http.post<Product[]>(getProductByUrl, requestBody);
-    
-        // For simplicity, return an empty array if no hardcoded data or backend request is available
-        console.log("No matching condition, using backend logic");
-        return of([]);
+            // Save fetched product to client-side state
+            productObservable.subscribe(products => {
+                if (products.length > 0) {
+                    products.forEach(product => {
+                        this.saveProductToState(product.productId, product);
+                    })
+                }
+            });
+
+            return productObservable;
+        }
     }
 
     /*
