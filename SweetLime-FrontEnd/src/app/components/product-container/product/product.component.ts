@@ -23,10 +23,27 @@ export class ProductComponent implements OnInit{
 
   ngOnInit(): void {
     console.log('ProductComponent ngOnInit');
+
     this.route.paramMap.subscribe(params => {
       this.productId = params.get('id');
       if (this.productId) {
-        this.productService.getProductById(this.productId).subscribe((product: Product) => {
+
+        // check if productDetail is already available in the client-side state
+        if (this.productService.hasProduct(this.productId)) {
+          // product detail already available
+          this.productDetail = this.productService.getProductFromStateById(this.productId);
+
+        } else {
+          // product details not available, fetch from teh backend
+
+        }
+      }
+    })
+
+    this.route.paramMap.subscribe(params => {
+      this.productId = params.get('id');
+      if (this.productId) {
+        this.productService.fetchProductById(this.productId).subscribe((product: Product) => {
         });
       }
     })

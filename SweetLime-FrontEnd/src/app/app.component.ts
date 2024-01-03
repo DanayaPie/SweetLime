@@ -13,5 +13,5 @@ export class AppComponent {
 
   constructor(
     public sharedService: SharedService
-    ) {}
+  ) {}
 }
