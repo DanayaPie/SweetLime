@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs';
 
 import { Product } from 'src/app/models/product';
 import { ProductService } from 'src/app/services/product.service';
@@ -12,18 +11,16 @@ import { ProductService } from 'src/app/services/product.service';
 })
 
 export class ProductComponent implements OnInit{
-  productId$ = this.route.paramMap.pipe(
-    map(params => params.get('id'))
-  );
+  @Input() product: Product | undefined;
 
   constructor (
     private route: ActivatedRoute,
-    public productService: ProductService
+    private productService: ProductService
   ) {}
 
   ngOnInit(): void {
     console.log('ProductComponent ngOnInit');
-    
+
     this.route.paramMap.subscribe(params => {
       const productId = params.get('id');
 
@@ -33,7 +30,7 @@ export class ProductComponent implements OnInit{
 
         if (cachedProduct) {
           // If product found
-          this.productService.saveProductToState(productId, cachedProduct);
+          this.product = cachedProduct;
           console.log('ProductComponent - using cached product from client state')
 
         } else {
@@ -42,6 +39,7 @@ export class ProductComponent implements OnInit{
             (product: Product) => {
               // Save fetched product to client-side state
               this.productService.saveProductToState(productId, product);
+              this.product = product;
               console.log('ProductComponent - fetched product form backend')
             },
             (error) => {

@@ -31,41 +31,41 @@ export class ProductService {
     fetchProductByUrl(productUrl: string): Observable<Product[]> {
         console.log("Product Service - Hardcoded fetchProductByUrl:", productUrl);
     
-        // check if product is available in client-side state
-        const cachedProduct = this.getProductFromStateByUrl(productUrl);
-
-        if (cachedProduct) {
-            console.log("Product Service - using cached product from state");
-            return of([cachedProduct]);
+        // Check if products are available in client-side state
+        const cachedProducts = this.getProductsFromStateByUrl(productUrl);
+    
+        if (cachedProducts && cachedProducts.length > 0) {
+            console.log("Product Service - using cached products from state");
+            return of(cachedProducts);
         } else {
-            console.log("Product Service - fetching hardcoded product");
-
+            console.log("Product Service - products not found in client state");
+    
             let productObservable: Observable<Product[]>;
-
+    
             if (productUrl.toLowerCase().includes('numbuz-n')) {
                 console.log("Product Service - Using oneProductHardCoded");
                 productObservable = of(oneProductHardCoded);
-    
             } else if (productUrl.toLowerCase().includes('beauty-of-joseon')) {
                 console.log("Product Service - Using twoProductHardCoded");
-                productObservable =  of(twoProductHardCoded);
+                productObservable = of(twoProductHardCoded);
             } else {
-                console.error("No matching condition and product not found in client state");
-                return throwError("Product not found");
+                console.error("No matching condition and products not found in client state");
+                return throwError("Products not found"); // or handle the error as per your needs
             }
-
-            // Save fetched product to client-side state
+    
+            // Save the fetched products to the client-side state
             productObservable.subscribe(products => {
                 if (products.length > 0) {
                     products.forEach(product => {
                         this.saveProductToState(product.productId, product);
-                    })
+                    });
                 }
             });
-
+    
             return productObservable;
         }
     }
+        
 
     /*
         Fetch Product from Database
@@ -174,14 +174,16 @@ export class ProductService {
         : domainParts[0].replace(/^\w/, match => match.toUpperCase());
     }
 
-    getProductFromStateByUrl(productUrl: string): Product | undefined {
+    getProductsFromStateByUrl(productUrl: string): Product[] {
+        const products: Product[] = [];
+        
         for (const product of this.productMap.values()) {
             if (product.productUrl === productUrl) {
-                return product;
+                products.push(product);
             }
         }
-
-        return undefined;
+    
+        return products;
     }
 
     getProductFromStateById(productId: string): Product | undefined {
