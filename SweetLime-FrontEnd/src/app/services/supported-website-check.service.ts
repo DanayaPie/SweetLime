@@ -19,7 +19,7 @@ export class SupportedWebsiteCheckService {
         return this.supportedWebsites?.includes(domain);
     }
 
-    private extractDomain(url: string): string {
+    extractDomain(url: string): string {
         const match = url.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n?]+)/im);
         return match ? match[1] : '';
     }

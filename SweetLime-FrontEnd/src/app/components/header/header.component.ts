@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-
-import { ProductService } from '../../services/product.service';
 import { SharedService } from '../../services/shared.service';
-import { SupportedWebComponent } from '../supported-web/supported-web.component';
 import { SupportedWebsiteCheckService } from '../../services/supported-website-check.service';
+import { FetchProductService } from 'src/app/services/product-services/fetch-product.service';
 
 @Component({
   selector: 'app-header',
@@ -18,7 +16,7 @@ export class HeaderComponent {
 
   constructor(
     private formBuilder: FormBuilder, 
-    private productService: ProductService,
+    private fetchProductService: FetchProductService,
     private sharedService: SharedService,
     private supportedWebsiteCheckService: SupportedWebsiteCheckService
   ) {
@@ -44,7 +42,7 @@ export class HeaderComponent {
         if (this.supportedWebsiteCheckService.isSupportedWebsite(productUrl)) {
           console.log("Header - productUrl is supported");
   
-          this.productService.fetchProductByUrl(productUrl).subscribe(
+          this.fetchProductService.fetchProductByUrl(productUrl).subscribe(
             (data) => {
               console.log('Header - Product Retrieved', data);
       

@@ -2,7 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Product } from 'src/app/models/product';
-import { ProductService } from 'src/app/services/product.service';
+import { FetchProductService } from 'src/app/services/product-services/fetch-product.service';
+import { ProductStateService } from 'src/app/services/product-services/product-state.service';
 
 @Component({
   selector: 'app-product',
@@ -15,7 +16,8 @@ export class ProductComponent implements OnInit{
 
   constructor (
     private route: ActivatedRoute,
-    private productService: ProductService
+    private productStateService: ProductStateService,
+    private fetchProductService: FetchProductService
   ) {}
 
   ngOnInit(): void {
@@ -25,20 +27,8 @@ export class ProductComponent implements OnInit{
       const productId = params.get('id');
 
       if (productId) {
-        // Try getting product from client-side state
-        const cachedProduct = this.productService.getProductFromStateById(productId);
-
-        if (cachedProduct) {
-          // If product found
-          this.product = cachedProduct;
-          console.log('ProductComponent - using cached product from client state')
-
-        } else {
-          // Fetch product form backend
-          this.productService.fetchProductById(productId).subscribe(
+          this.fetchProductService.fetchProductById(productId).subscribe(
             (product: Product) => {
-              // Save fetched product to client-side state
-              this.productService.saveProductToState(productId, product);
               this.product = product;
               console.log('ProductComponent - fetched product form backend')
             },
@@ -46,8 +36,7 @@ export class ProductComponent implements OnInit{
               console.error('ProductComponent - Error fetching product:', error);
             }
           )
-        }
       }
-    })
+    })   
   }
 }
