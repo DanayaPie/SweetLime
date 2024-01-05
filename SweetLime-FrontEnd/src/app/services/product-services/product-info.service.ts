@@ -14,6 +14,8 @@ export class ProductInfoService {
     ) {}
 
     mapToProductModel(productData: any): Product {
+        console.debug("mapToProductModel");
+
         return {
             productId: productData.productId,
             productName: productData.productName,
@@ -29,13 +31,13 @@ export class ProductInfoService {
     }
 
     private convertEpochToLocalDate(epoch: number): string {
-        console.log("convertEpochToLocalDate");
+        console.debug("convertEpochToLocalDate");
 
         return epoch ? new Date(epoch * 1000).toLocaleDateString() : '';
     }
 
     private extractOptions(optionsData: any): { [key: string]: string; } {
-        console.log("extractOptions");
+        console.debug("extractOptions");
 
         // map all key and value from options
         return Object.entries(optionsData).reduce((result: { [key: string]: string}, [key, value]) => {
@@ -45,7 +47,7 @@ export class ProductInfoService {
     }
 
     private convertPriceHistory(priceHistoryData: any[]): any[] {
-        console.log("convertPriceHistory");
+        console.debug("convertPriceHistory");
 
         return priceHistoryData.map((priceData) => {
             return {
@@ -56,7 +58,7 @@ export class ProductInfoService {
     }
 
     private extractNewestPrice(priceHistoryData: any[]): number {
-        console.log("extractNewestPrice");
+        console.debug("extractNewestPrice");
 
         if (priceHistoryData.length > 0) {
             // reduce iterates over each element of array, applying a specified callback function
@@ -77,10 +79,13 @@ export class ProductInfoService {
     }
 
     private extractAndFormatWebDomain(url: string): string {
+        console.debug("extractAndFormatWebDomain");
+
         const match = url.match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n?]+)/im);
         const domain = match ? match[1] : '';
+        const topLvlDomain = domain.toLowerCase().split('.')[0];
+        const titleCaseDomain = topLvlDomain.charAt(0).toUpperCase() + topLvlDomain.slice(1);
 
-        // return capitalized first letter
-        return domain.charAt(0).toUpperCase() + domain.slice(1);
+        return titleCaseDomain;
     }
 }
