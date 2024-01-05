@@ -43,4 +43,17 @@ public class ProductService {
         List<Product> productsToGet = productDao.getProductByUrl(productUrl);
         return productsToGet;
     }
+
+    public Product getProductById(String productId) {
+        logger.info("ProductService.getProductById() invoked");
+
+        productId.trim();
+
+        if (StringUtils.isBlank(productId)) {
+            throw new InvalidParameterException("Id cannot be blank.");
+        }
+
+        Product productToGet = productDao.getProductById(productId);
+        return productToGet;
+    }
 }

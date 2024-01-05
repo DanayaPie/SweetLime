@@ -1,5 +1,6 @@
 package com.danayapie.SweetLimeWebService.controller;
 
+import com.amazonaws.Response;
 import com.danayapie.SweetLimeWebService.exception.InvalidUrlOrDomainException;
 import com.danayapie.SweetLimeWebService.exception.WebDoesNotExistException;
 import com.danayapie.SweetLimeWebService.model.Product;
@@ -28,7 +29,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping(path = "/productUrl")
+    @PostMapping(path = "/url")
     public ResponseEntity<Object> getProductByUrl(@RequestBody Map<String, String> json) {
         logger.info("ProductController.getProductByUrl() invoked");
 
@@ -37,6 +38,18 @@ public class ProductController {
             return ResponseEntity.status(200).body(productsToGet);
 
         } catch (InvalidParameterException | InvalidUrlOrDomainException | WebDoesNotExistException | URISyntaxException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PostMapping(path = "/id")
+    public ResponseEntity<Object> getProductById(@RequestBody Map<String, String> json) {
+        logger.info("ProductController.getProductById() invoked");
+
+        try {
+            Product productToGet = productService.getProductById(json.get("productId"));
+            return ResponseEntity.status(200).body(productToGet);
+        } catch (InvalidParameterException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
