@@ -12,7 +12,6 @@ import { FetchProductService } from 'src/app/services/product-services/fetch-pro
 })
 export class HeaderComponent {
   searchForm: FormGroup;
-  product: any;
 
   constructor(
     private formBuilder: FormBuilder, 
@@ -45,15 +44,10 @@ export class HeaderComponent {
           this.fetchProductService.fetchProductByUrl(productUrl).subscribe(
             (data) => {
               console.log('Header - Product Retrieved', data);
-      
-              this.product = data;
-              console.log('Header - Product data', this.product);
-      
-              this.sharedService.onSearchProduct(this.product);
-      
+
+              this.sharedService.onSearchProduct(data);
               this.sharedService.showProductContainer = true;
               this.sharedService.showSupportedWebError = false;
-      
               this.searchForm.reset();
             },
             (error) => {
@@ -66,48 +60,56 @@ export class HeaderComponent {
           );
   
         } else {
-          // unsupported website errors
-          console.log("Header - unsupported website error");
-  
-          this.sharedService.showSupportedWebError = true;
-          this.sharedService.showProductContainer = false;
-          this.sharedService.onSearchProduct(null);
-          this.searchForm.reset();
-  
-          this.sharedService.supportedWebErrorMessage = 
-          "The product entered is not from our supported website. Please enter a product URL from our list of supported websites.";
+          this.handleUnsupportedWebsite();
         }
 
       } else {
-        // invalid productUrl error 
-        console.log("Header - invalid productUrl error");
-
-        this.sharedService.showSupportedWebError = true;
-        this.sharedService.showProductContainer = false;
-        this.sharedService.onSearchProduct(null);
-        this.searchForm.reset();
-
-        this.sharedService.supportedWebErrorMessage =
-          "Please enter a valid product URL. The product URL must be from our supported websites.";
+        this.handleInvalidUrl();
       }
-      
 
     } else {
-      // form validation errors
-      console.log("Header - form validation errors");
-
-      this.sharedService.showSupportedWebError = true;
-      this.sharedService.showProductContainer = false;
-      this.sharedService.onSearchProduct(null);
-      this.searchForm.reset();
-
-      this.sharedService.supportedWebErrorMessage =
-        "Please enter a valid product URL. The product URL must be from our supported websites.";
+      this.handleInvalidForm();
     }
   }
 
   private isValidUrl(url: string): boolean {
     const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
     return urlRegex.test(url);
+  }
+  
+  private handleUnsupportedWebsite() {
+    console.debug("Header - unsupported website error");
+
+    this.sharedService.showSupportedWebError = true;
+    this.sharedService.showProductContainer = false;
+    this.sharedService.onSearchProduct(null);
+    this.searchForm.reset();
+
+    this.sharedService.supportedWebErrorMessage = 
+    "The product entered is not from our supported website. Please enter a product URL from our list of supported websites.";
+  }
+
+  private handleInvalidUrl() {
+    console.debug("Header - invalid productUrl error");
+
+    this.sharedService.showSupportedWebError = true;
+    this.sharedService.showProductContainer = false;
+    this.sharedService.onSearchProduct(null);
+    this.searchForm.reset();
+
+    this.sharedService.supportedWebErrorMessage =
+      "Please enter a valid product URL. The product URL must be from our supported websites.";
+  }
+
+  private handleInvalidForm() {
+    console.debug("Header - form validation errors");
+
+    this.sharedService.showSupportedWebError = true;
+    this.sharedService.showProductContainer = false;
+    this.sharedService.onSearchProduct(null);
+    this.searchForm.reset();
+
+    this.sharedService.supportedWebErrorMessage =
+      "Please enter a valid product URL. The product URL must be from our supported websites.";
   }
 }

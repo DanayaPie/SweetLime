@@ -2,9 +2,12 @@
   <router-outlet></router-outlet>
 </div> -->
 
-<div *ngIf="sharedService.showProductList && products.length > 0">
-  <app-product-list [products]="products"></app-product-list>
+<div *ngIf="sharedService.showProductInfo">
+  <!-- Render ProductComponent with product data -->
+  <app-product [products]="products"></app-product>
 </div>
-<div *ngIf="sharedService.showProductInfo && products.length === 1">
-  <app-product [product]="products[0]"></app-product>
+
+<div *ngIf="sharedService.showProductList">
+  <!-- Render ProductListComponent with product list data -->
+  <app-product-list [products]="products"></app-product-list>
 </div>

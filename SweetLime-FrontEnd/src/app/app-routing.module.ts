@@ -8,10 +8,9 @@ import { ProductListComponent } from './components/product-container/product-lis
 
 const routes: Routes = [
     { path: 'home', component: HeaderComponent },
-    { path: '', component: ProductContainerComponent },
-    { path: 'product/:id', component: ProductComponent },
+    { path: 'product/:id', component: ProductContainerComponent },
     { path: 'product-list', component: ProductListComponent },
-    { path: '**', redirectTo: '/home', pathMatch: 'full' }, // Add a wildcard route
+    { path: '**', redirectTo: '/home', pathMatch: 'full' },
 ];
 
 @NgModule({

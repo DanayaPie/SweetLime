@@ -26,10 +26,13 @@ export class ProductStateService {
     }
 
     getProductFromStateById(productId: string): Product | undefined {
-        console.log('ProductStateService - getProductFromStateById');
+        console.log('ProductStateService - getProductFromStateById', productId);
         console.log('ProductStateService - Product Map Keys:', Array.from(this.productMap.keys()));
+
+        const product = this.productMap.get(productId);
+        console.log('ProductStateService - Product Map - product by id:', product);
         
-        return this.productMap.get(productId);
+        return product;
     }
 
     hasProduct(productId: string): boolean {
@@ -38,5 +41,6 @@ export class ProductStateService {
 
     saveProductToState(productId: string, product: Product): void {
         this.productMap.set(productId, product);
+        console.log('ProductStateService - saveProductToSate', this.productMap.get(productId));
     }
 }

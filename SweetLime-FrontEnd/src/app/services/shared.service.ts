@@ -17,7 +17,7 @@ export class SharedService {
 
     public webList: string[] = this.configService.getSupportedWebsites();
     
-    private productSource = new BehaviorSubject<Product | null>(null);
+    private productSource = new BehaviorSubject<Product[] | null>(null);
     currentProduct = this.productSource.asObservable();
 
     constructor(
@@ -28,8 +28,8 @@ export class SharedService {
         return this.webList;
     }
 
-    onSearchProduct(product: Product | null): void {
-        this.productSource.next(product);
+    onSearchProduct(products: Product[] | null): void {
+        this.productSource.next(products);
     }
 
     resetSearchProductFrom() {

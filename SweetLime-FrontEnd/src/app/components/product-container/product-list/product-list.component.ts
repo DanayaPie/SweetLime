@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
 
 @Component({
@@ -7,6 +7,10 @@ import { Product } from 'src/app/models/product';
   styleUrls: ['./product-list.component.scss']
 })
 
-export class ProductListComponent {
+export class ProductListComponent implements OnInit {
   @Input() products: Product[] = [];
+
+  ngOnInit(): void {
+    console.log('ProductListComponent ngOnInit');
+  }
 }

@@ -12,7 +12,7 @@ import { ProductStateService } from 'src/app/services/product-services/product-s
 })
 
 export class ProductComponent implements OnInit{
-  @Input() product: Product | undefined;
+  @Input() products: Product[] = [];
 
   constructor (
     private route: ActivatedRoute,
@@ -22,21 +22,23 @@ export class ProductComponent implements OnInit{
 
   ngOnInit(): void {
     console.log('ProductComponent ngOnInit');
+    this.handleProductData(); 
+  }
 
+  private handleProductData(): void {
     this.route.paramMap.subscribe(params => {
       const productId = params.get('id');
 
       if (productId) {
-          this.fetchProductService.fetchProductById(productId).subscribe(
-            (product: Product) => {
-              this.product = product;
-              console.log('ProductComponent - fetched product form backend')
-            },
-            (error) => {
-              console.error('ProductComponent - Error fetching product:', error);
-            }
-          )
+        this.fetchProductService.fetchProductById(productId).subscribe(
+          (product: Product) => {
+            this.products = [product];
+          },
+          (error) => {
+            console.error('Error fetching product:', error);
+          }
+        );
       }
-    })   
+    });
   }
 }
