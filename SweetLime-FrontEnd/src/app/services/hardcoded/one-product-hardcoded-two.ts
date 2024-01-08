@@ -7,7 +7,7 @@ export const oneProductHardCodedTwo: Product[] = [
     productUrl: "https://www.stylevana.com/en_US/haruharu-wonder-black-rice-hyaluronic-toner-fragrance-free-300ml.html",
     createdDate: new Date("01/03/2024"),
     deletedDate: null,
-    imagePath: "https://cdn.stylevana.com/media/catalog/product/cache/1/image/1000x1231/17f82f742ffe127f42dca9de82fb58b1/h/a/haruharu-wonder-black-rice-hyaluronic-toner-fragrance-free-300ml-639.jpg",
+    imagePath: "https://cdn.stylevana.com/media/catalog/product/cache/1/image/1000x1231/17f82f742ffe127f42dca9de82fb58b1/h/a/haruharu-wonder-black-rice-hyaluronic-toner-fragrance-free-300ml-899.jpg",
     options: {},
     priceHistory: [
       { Price: 25.99, UpdatedDate: new Date("01/03/2024") },

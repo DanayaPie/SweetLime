@@ -12,6 +12,8 @@ export class ProductStateService {
     private productMap: Map<string, Product> = new Map<string, Product>();
 
     getProductFromStateByUrl(productUrl: string): Product[] {
+        console.log('ProductStateService - getProductFromStateByUrl');
+
         const products: Product[] = [];
 
         for (const product of this.productMap.values()) {
@@ -24,6 +26,9 @@ export class ProductStateService {
     }
 
     getProductFromStateById(productId: string): Product | undefined {
+        console.log('ProductStateService - getProductFromStateById');
+        console.log('ProductStateService - Product Map Keys:', Array.from(this.productMap.keys()));
+        
         return this.productMap.get(productId);
     }
 
@@ -34,5 +39,4 @@ export class ProductStateService {
     saveProductToState(productId: string, product: Product): void {
         this.productMap.set(productId, product);
     }
-
 }
