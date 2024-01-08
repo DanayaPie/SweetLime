@@ -1,6 +1,6 @@
 import { Product } from "../../models/product";
 
-export const oneProductHardCoded: Product[] = [
+export const oneProductHardCodedOne: Product[] = [
   {
     productId: "8a218519-53a0-4115-a5fa-6a962b56a047",
     productName: "numbuzin - No.3 Super Glowing Essence Toner - 200ml",

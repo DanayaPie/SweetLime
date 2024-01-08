@@ -1,6 +1,6 @@
 import { Product } from "../../models/product";
 
-export const twoProductHardCoded: Product[] = [
+export const multiProductHardcodedOne: Product[] = [
   {
     productId: '3dbff070-572b-4a21-8c73-95666d8b3cb7',
     productName: 'BEAUTY OF JOSEON - Relief Sun : Rice + Probiotic SPF50+ PA++++ - 10ml',
