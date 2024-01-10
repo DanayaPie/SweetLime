@@ -1,13 +1,12 @@
 <!-- <div class="container" id="product-container">
   <router-outlet></router-outlet>
 </div> -->
+<div *ngIf="sharedService.currentProduct | async as productUrl">
+  <div *ngIf="sharedService.showProductInfo">
+    <app-product [products]="products"></app-product>
+  </div>
 
-<div *ngIf="sharedService.showProductInfo">
-  <!-- Render ProductComponent with product data -->
-  <app-product [products]="products"></app-product>
-</div>
-
-<div *ngIf="sharedService.showProductList">
-  <!-- Render ProductListComponent with product list data -->
-  <app-product-list [products]="products"></app-product-list>
+  <div *ngIf="sharedService.showProductList">
+    <app-product-list [products]="products"></app-product-list>
+  </div>
 </div>

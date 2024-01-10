@@ -99,7 +99,6 @@ export class FetchProductService {
     //         console.log("requestBody:", requestBody);
     //         console.log("getProductByUrl:", getProductByUrl);
 
-
     //         // fetch product from backend
     //         return this.http.post<Product>(getProductByUrl, requestBody).pipe(
     //             map((data: any) => {
