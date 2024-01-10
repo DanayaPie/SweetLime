@@ -19,7 +19,9 @@ export class ProductContainerComponent implements OnInit {
     private route: ActivatedRoute,
     private fetchProductService: FetchProductService,
     public sharedService: SharedService,
-  ) {}
+  ) {
+    console.log('ProductContainerComponent ngOnInit');
+  }
 
   ngOnInit(): void {
     console.log('ProductContainerComponent ngOnInit');

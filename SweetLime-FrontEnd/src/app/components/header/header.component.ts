@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { SharedService } from '../../services/shared.service';
 import { SupportedWebsiteCheckService } from '../../services/supported-website-check.service';
@@ -15,6 +16,7 @@ export class HeaderComponent {
 
   constructor(
     private formBuilder: FormBuilder, 
+    private router: Router,
     private fetchProductService: FetchProductService,
     private sharedService: SharedService,
     private supportedWebsiteCheckService: SupportedWebsiteCheckService
@@ -46,6 +48,17 @@ export class HeaderComponent {
               console.log('Header - Product Retrieved', data);
 
               this.sharedService.onSearchProduct(data);
+
+              if (data.length === 1) {
+                // Navigate to the 'product' route with the productId parameter
+                this.router.navigate(['/product', data[0].productId]);
+              } else if (data.length > 1) {
+                // Navigate to the 'product-list' route when multiple products are retrieved
+                this.router.navigate(['/product-list', productUrl]);
+              } else {
+                // Handle the case where no products are retrieved
+              }
+
               this.sharedService.showProductContainer = true;
               this.sharedService.showSupportedWebError = false;
               this.searchForm.reset();
