@@ -41,7 +41,7 @@ export class HeaderComponent {
         if (this.supportedWebsiteCheckService.isSupportedWebsite(productUrl)) {
           console.log("Header - productUrl is supported");
 
-          this.router.navigate(['/products', { url: encodeURIComponent(productUrl) }]);
+          this.router.navigate(['/products', { url: productUrl }]);
           this.sharedService.showProductContainer = true;
           this.sharedService.showSupportedWebError = false;
           this.searchForm.reset();

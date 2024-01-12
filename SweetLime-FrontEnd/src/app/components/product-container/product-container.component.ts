@@ -4,6 +4,7 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { Product } from 'src/app/models/product';
 import { FetchProductService } from 'src/app/services/product-services/fetch-product.service';
+import { ProductStateService } from 'src/app/services/product-services/product-state.service';
 import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
@@ -19,6 +20,7 @@ export class ProductContainerComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private fetchProductService: FetchProductService,
+    private productStateService: ProductStateService,
     public sharedService: SharedService,
   ) {}
 
@@ -36,40 +38,45 @@ export class ProductContainerComponent implements OnInit {
   }
 
   private getProductsByUrl(): void {
-    if (this.productUrl !== null) {
-      this.fetchProductService.fetchProductByUrl(this.productUrl).subscribe(
-        (data) => {
-          console.log('ProductContainerComponent - Products retrieved from backend', data);
-          this.products = data;
-          this.handleProductData();
-        },
-        (error) => {
-          console.error('ProductContainerComponent - Error getting products:', error);
-          // Handle the error as needed
-        }
-      );
-    } else {
-      console.warn('ProductContainerComponent - productUrl is null, cannot fetch products.');
-      // Handle the case where productUrl is null
-    }
+    this.fetchProductService.fetchProductByUrl(this.productUrl!).subscribe(
+      (data) => {
+        console.log('ProductContainerComponent - Products retrieved from backend', data);
+        this.products = data;
+        this.handleProductData();
+      },
+      (error) => {
+        console.error('ProductContainerComponent - Error getting products:', error);
+        // Handle the error as needed
+      }
+    );
   }
   
   handleProductData() {
     if (this.products.length === 1) {
+      const singleProduct = this.products[0];
+
+      // save product id and url to the client-side state
+      this.sharedService.onSearchProduct(`/product/${singleProduct.productId}`);
+      this.productStateService.saveProductToState(singleProduct.productId, singleProduct);
+
       this.sharedService.showProductInfo = true;
       this.sharedService.showProductList = false;
       console.log('Product-container - single product', this.products);
 
-      const productId = this.products[0].productId;
-      this.sharedService.onSearchProduct(`/product/${productId}`);
-
     } else if (this.products.length > 1) {
+      
+      // saving each product to client-side state
+      this.products.forEach(product => this.productStateService.saveProductToState(product.productId, product));
+
+      const productListUrl = '/product-list/' + this.productUrl; 
+      this.sharedService.onSearchProduct(productListUrl);
+
       this.sharedService.showProductInfo = false;
       this.sharedService.showProductList = true;
       console.log('Product-container - 2+ products', this.products);
 
-      const productListUrl = '/product-list/' + encodeURIComponent(this.productUrl ?? ''); // Add ?? '' to handle null
-      this.sharedService.onSearchProduct(productListUrl);
+    } else if (this.products.length === 0) {
+      console.error('Product is not supported', this.products);
     }
   }
 
