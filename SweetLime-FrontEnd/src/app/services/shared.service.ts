@@ -32,6 +32,10 @@ export class SharedService {
         this.productSource.next(url);
     }
 
+    updateCurrentProduct(productUrl: string) {
+        this.productSource.next(productUrl);
+    }
+
     resetSearchProductFrom() {
         this.showProductContainer = false;
         this.showProductList = false;
