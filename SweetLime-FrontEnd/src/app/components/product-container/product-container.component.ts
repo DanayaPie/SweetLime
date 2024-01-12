@@ -38,7 +38,9 @@ export class ProductContainerComponent implements OnInit {
   }
 
   private getProductsByUrl(): void {
-    this.fetchProductService.fetchProductByUrl(this.productUrl!).subscribe(
+    const decodedUrl = decodeURIComponent(this.productUrl!);
+    
+    this.fetchProductService.fetchProductByUrl(decodedUrl).subscribe(
       (data) => {
         console.log('ProductContainerComponent - Products retrieved from backend', data);
         this.products = data;

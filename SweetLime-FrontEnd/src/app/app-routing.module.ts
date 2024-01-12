@@ -11,7 +11,7 @@ const routes: Routes = [
     { path: 'supported-web', component: SupportedWebComponent },
     // { path: 'product/:id', component: ProductComponent },
     // { path: 'product-list/:url', component: ProductListComponent }
-    { path: 'products', component: ProductContainerComponent,
+    { path: 'products/:url', component: ProductContainerComponent,
         children: [
         { path: 'product/:id', component: ProductComponent },
         { path: 'product-list/:url', component: ProductListComponent },
