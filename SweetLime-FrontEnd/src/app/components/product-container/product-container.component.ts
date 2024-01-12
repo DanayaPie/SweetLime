@@ -46,7 +46,7 @@ export class ProductContainerComponent implements OnInit {
       },
       (error) => {
         console.error('ProductContainerComponent - Error getting products:', error);
-        // Handle the error as needed
+        this.handleProductData();
       }
     );
   }
@@ -61,6 +61,7 @@ export class ProductContainerComponent implements OnInit {
 
       this.sharedService.showProductInfo = true;
       this.sharedService.showProductList = false;
+      this.sharedService.showSupportedWebError = false;
       console.log('Product-container - single product', this.products);
 
     } else if (this.products.length > 1) {
@@ -71,11 +72,18 @@ export class ProductContainerComponent implements OnInit {
       const productListUrl = '/product-list/' + this.productUrl; 
       this.sharedService.onSearchProduct(productListUrl);
 
-      this.sharedService.showProductInfo = false;
       this.sharedService.showProductList = true;
+      this.sharedService.showProductInfo = false;
+      this.sharedService.showSupportedWebError = false;
       console.log('Product-container - 2+ products', this.products);
 
-    } else if (this.products.length === 0) {
+    } else if (this.products.length === 0 ) {
+      this.sharedService.showSupportedWebError = true;
+      this.sharedService.showProductInfo = false;
+      this.sharedService.showProductList = false;
+      this.sharedService.onSearchProduct(null);
+
+      this.sharedService.supportedWebErrorMessage = "The product is not supported. Please try another product.";
       console.error('Product is not supported', this.products);
     }
   }
