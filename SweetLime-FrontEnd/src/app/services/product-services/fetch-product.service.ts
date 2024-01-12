@@ -10,6 +10,7 @@ import { oneProductHardCodedOne } from "../hardcoded/one-product-hardcoded-one";
 import { oneProductHardCodedTwo } from "../hardcoded/one-product-hardcoded-two";
 import { multiProductHardcodedOne } from "../hardcoded/multi-productHardcoded-one";
 import { multiProductHardcodedTwo } from "../hardcoded/multi-product-hardcoded-two";
+import { SharedService } from "../shared.service";
 
 @Injectable({
     providedIn: 'root'
@@ -23,6 +24,7 @@ export class FetchProductService {
         private http: HttpClient,
         private productInfoService: ProductInfoService,
         private productStateService: ProductStateService,
+        private sharedService: SharedService,
     ) {
         this.apiUrl = this.configService.getApiUrl();
     }
@@ -41,45 +43,40 @@ export class FetchProductService {
     //         return of(cachedProducts);
 
     //     } else {
-    //         console.log("FetchProductService - products not found in client state");
-        
-    //         let productObservable: Observable<Product[]>;
-            
-    //         if (productUrl.toLowerCase().includes('numbuz-n')) {
-    //             console.log("FetchProductService - Using oneProductHardCodedOne");
-    //             productObservable = of(oneProductHardCodedOne);
-            
-    //         } else if (productUrl.toLowerCase().includes('haruharu-wonder')) {
-    //             console.log("FetchProductService - Using oneProductHardCodedTwo");
-    //             productObservable = of(oneProductHardCodedTwo);
-            
-    //         } else if (productUrl.toLowerCase().includes('beauty-of-joseon')) {
-    //             console.log("FetchProductService - Using multiProductHardcodedOne");
-    //             productObservable = of(multiProductHardcodedOne);
-            
-    //         } else if (productUrl.toLowerCase().includes('etude-house')) {
-    //             console.log("FetchProductService - Using multiProductHardcodedTwo");
-    //             productObservable = of(multiProductHardcodedTwo);
-            
-    //         } else {
-    //             console.error("No matching condition and products not found in client state");
-    //             return throwError("Products not found");
-    //         }
-
-    //         // Save the fetched products to the client-side state
-    //         productObservable.subscribe(products => {
-    //             if (products.length > 0) {
-    //                 products.forEach(product => {
-    //                     this.productStateService.saveProductToState(product.productId, product);
-    //                 });
-
-    //                 console.log("FetchProductService - Products saved to client state:", products);
+    //         // Simulate fetching by URL with hardcoded products
+    //         const products = this.getHardcodedProducts(productUrl);
+      
+    //         return of(products).pipe(
+    //           map(data => {
+    //             if (data && Array.isArray(data)) {
+    //               return data.map(productData => {
+    //                 const product = this.productInfoService.mapToProductModel(productData);
+    //                 this.productStateService.saveProductToState(product.productId, product);
+    //                 return product;
+    //               });
+    //             } else {
+    //               console.error('Invalid response format:', data);
+    //               return [];
     //             }
-    //         });
-        
-    //         return productObservable;
+    //           })
+    //         );
     //     }
     // }
+      
+    private getHardcodedProducts(productUrl: string): Product[] {
+        if (productUrl.includes('etude-house')) {
+            return multiProductHardcodedTwo;
+        } else if (productUrl.includes('beauty-of-joseon')) {
+            return multiProductHardcodedOne;
+        } else if (productUrl.includes('numbuz')) {
+            return oneProductHardCodedOne;
+        } else if (productUrl.includes('haruharu-wonder')) {
+            return oneProductHardCodedTwo;
+        } else {
+            console.error('Product URL not recognized:', productUrl);
+            return [];
+        }
+    }
 
     /*
         Fetch Product from Database by URL
