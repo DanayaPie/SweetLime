@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { SharedService } from '../../services/shared.service';
 import { SupportedWebsiteCheckService } from '../../services/supported-website-check.service';
@@ -16,6 +16,7 @@ export class HeaderComponent {
   constructor(
     private formBuilder: FormBuilder, 
     private router: Router,
+    private route: ActivatedRoute,
     private sharedService: SharedService,
     private supportedWebsiteCheckService: SupportedWebsiteCheckService
   ) {
@@ -39,13 +40,11 @@ export class HeaderComponent {
         
         // validate product url is from supported website
         if (this.supportedWebsiteCheckService.isSupportedWebsite(productUrl)) {
-          console.log("HeaderComponent - productUrl is supported");
+          console.log("HeaderComponent - productUrl is supported", productUrl);
 
-          this.sharedService.updateCurrentProduct(productUrl);
-          this.router.navigate(['/products', productUrl]);
-          
+          this.router.navigate(['products', encodeURIComponent(productUrl)]);
           this.sharedService.showProductContainer = true;
-          this.sharedService.showSupportedWebError = false;
+          // this.sharedService.showSupportedWebError = false;
           this.searchForm.reset();
         } else {
           this.handleUnsupportedWebsite();

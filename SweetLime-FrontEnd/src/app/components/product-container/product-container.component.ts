@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Observable, Subject, map, of, switchMap, takeUntil } from 'rxjs';
 
 import { Product } from 'src/app/models/product';
 import { FetchProductService } from 'src/app/services/product-services/fetch-product.service';
@@ -13,115 +13,59 @@ import { SharedService } from 'src/app/services/shared.service';
   styleUrls: ['./product-container.component.scss']
 })
 export class ProductContainerComponent implements OnInit {
-  products: Product[] = [];
-  productUrl: string | null = null;
-  private destroy$ = new Subject<void>();
-
+  products$!: Observable<Product[]>;
+  
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private fetchProductService: FetchProductService,
     private productStateService: ProductStateService,
     public sharedService: SharedService,
-    private router: Router,
   ) {}
 
-  ngOnInit(): void {
-    console.log('ProductContainerComponent ngOnInit');
-
-    // Subscribe to changes in the current product URL
-    this.sharedService.currentProduct.pipe(takeUntil(this.destroy$)).subscribe(url => {
-      if (url) {
-        console.log('ProductContainerComponent - Current product URL:', url);
-        this.productUrl = url;
-        this.getProductsByUrl();
-      }
-    });
+  ngOnInit() {
+    console.log('ProductContainerComponent - ngOnInit()');
+    this.loadProductData();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  private getProductsByUrl(): void {
-    const decodedUrl = decodeURIComponent(this.productUrl!);
-
-    this.fetchProductService.fetchProductByUrl(decodedUrl).subscribe(
-      (data) => {
-        console.log('ProductContainerComponent - Products retrieved from backend', data);
-        this.products = data;
-        this.handleProductData();
-      },
-      (error) => {
-        console.error('ProductContainerComponent - Error getting products:', error);
-        this.handleProductData();
-      }
+  private loadProductData() {
+    this.products$ = this.route.paramMap.pipe(
+      switchMap(params => {
+        const productUrl = params.get('url');
+        console.log('ProductContainerComponent - Product URL:', productUrl);
+        return productUrl ? this.getProduct(productUrl) : of([]);
+      })
     );
+
+    this.products$.subscribe(products => this.handleProductData(products));
   }
 
-  handleProductData() {
-    console.log("ProductContainerComponent - handleProductData()")
-    console.log('ProductContainerComponent - productsToDisplay', this.products);
+  private getProduct(productUrl: string): Observable<Product[]> {
+    const cachedProducts = this.productStateService.getProductFromStateByUrl(productUrl);
 
-    if (this.products.length > 0) {
-      console.log('ProductContainerComponent - > 0');
-
-      const productsToDisplay = `/products/${this.productUrl}`;
-      this.sharedService.onSearchProduct(productsToDisplay);
-  
-      this.sharedService.showProductInfo = true;
-      this.sharedService.showSupportedWebError = false;
-
+    if (cachedProducts && cachedProducts.length > 0) {
+      console.log("ProductContainerComponent - using cached products from state");
+      return of(cachedProducts);
     } else {
-      console.error('Product is not supported', this.products);
-
-      this.router.navigate(['/supported-web']);
-      this.sharedService.showSupportedWebError = true;
-      this.sharedService.showProductInfo = false;
-      this.sharedService.onSearchProduct(null);
-      this.sharedService.supportedWebErrorMessage = "The product is not supported. Please try another product.";
+      console.log("ProductContainerComponent - get product from backend");
+      return this.fetchProductService.fetchProductByUrl(productUrl);
     }
   }
-  
-  /* 
-    Handle product data for product list and product components
-    -- Issues:
-      - product and product list components are displayed and immediately disappeared
-  */
-/*   handleProductData() {
-    if (this.products.length === 1) {
-      const singleProduct = this.products[0];
 
-      // save product id and url to the client-side state
-      this.sharedService.onSearchProduct(`/products/product/${singleProduct.productId}`);
-      // this.productStateService.saveProductToState(singleProduct.productId, singleProduct);
-
+  handleProductData(products: Product[]) {
+    if (products.length >= 1) {
+      console.log('ProductContainerComponent - products.length >= 1');
       this.sharedService.showProductInfo = true;
-      this.sharedService.showProductList = false;
       this.sharedService.showSupportedWebError = false;
-      console.log('Product-container - single product', this.products);
-
-    } else if (this.products.length > 1) {
-      
-      // saving each product to client-side state
-      // this.products.forEach(product => this.productStateService.saveProductToState(product.productId, product));
-
-      const productListUrl = `/products/product-list/${this.productUrl}`;
-      this.sharedService.onSearchProduct(productListUrl);
-
-      this.sharedService.showProductList = true;
-      this.sharedService.showProductInfo = false;
-      this.sharedService.showSupportedWebError = false;
-      console.log('Product-container - 2+ products', this.products);
-
-    } else if (this.products.length === 0 ) {
+  
+    } else {
+      console.log('ProductContainerComponent - handleProductData - else ');
+  
       this.sharedService.showSupportedWebError = true;
       this.sharedService.showProductInfo = false;
-      this.sharedService.showProductList = false;
       this.sharedService.onSearchProduct(null);
-
       this.sharedService.supportedWebErrorMessage = "The product is not supported. Please try another product.";
-      console.error('Product is not supported', this.products);
+      console.error('Product is not supported');
     }
-  } */
+  }
 }

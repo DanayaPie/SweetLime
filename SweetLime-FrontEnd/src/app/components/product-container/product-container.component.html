@@ -1,10 +1,16 @@
-<div *ngIf="sharedService.showSupportedWebError">
-  <app-supported-web></app-supported-web>
+<div *ngIf="products$ | async as products; else loading">
+  <app-product-detail-list
+    *ngIf="products.length > 0"
+    [products]="products"
+  ></app-product-detail-list>
+
+  <app-supported-web *ngIf="products.length === 0"></app-supported-web>
 </div>
 
-<div *ngIf="sharedService.showProductInfo">
-  <app-product-detail-list [products]="products"></app-product-detail-list>
-</div>
+<ng-template #loading>
+  <!-- Optionally, you can add a loading spinner or message while products are being loaded -->
+  <p>Loading...</p>
+</ng-template>
 
 <!-- <div *ngIf="sharedService.showSupportedWebError">
   <app-supported-web></app-supported-web>

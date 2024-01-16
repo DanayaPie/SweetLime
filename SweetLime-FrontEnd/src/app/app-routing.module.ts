@@ -6,22 +6,14 @@ import { ProductContainerComponent } from './components/product-container/produc
 import { ProductDetailListComponent } from './components/product-container/product-detail-list/product-detail-list.component';
 
 const routes: Routes = [
-    { path: '', redirectTo: 'supported-web', pathMatch: 'full' }, // Redirect to supported-web or any default path
+    { path: '', redirectTo: 'supported-web', pathMatch: 'full' },
     { path: 'supported-web', component: SupportedWebComponent },
-    { path: 'products', component: ProductContainerComponent,
-        children: [
-        { path: ':url', component: ProductDetailListComponent },
-        // { path: 'product/:id', component: ProductComponent },
-        // { path: 'product-list/:url', component: ProductListComponent },
-        // { path: '', redirectTo: 'product-list', pathMatch: 'full' }, // Redirect to a default child route if no child route provided
-        ]
-    }
-];
-
-
-@NgModule({
+    { path: 'products/:url', component: ProductContainerComponent }
+  ];
+  
+  @NgModule({
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule]
-})
+  })
 
-export class AppRoutingModule { }
+  export class AppRoutingModule {}
