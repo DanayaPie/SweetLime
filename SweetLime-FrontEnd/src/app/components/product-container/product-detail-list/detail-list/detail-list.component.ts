@@ -23,14 +23,14 @@ export class DetailListComponent {
   productWebDomain: string | undefined;
 
   ngOnInit(): void {
-    console.log('Product-detail - ngOnInit', this.product)
+    console.log('DetailListComponent - ngOnInit', this.product)
     if (this.product) {
 
       this.productName = this.product.productName;
-      console.log('Product-detail - productName:', this.productName);
+      console.log('DetailListComponent - productName:', this.productName);
 
       this.productImage = this.product.imagePath;
-      console.log('Product-detail - imagePath', this.productImage);
+      console.log('DetailListComponent - imagePath', this.productImage);
 
       this.productWebDomain = this.product.webdomain;
     }

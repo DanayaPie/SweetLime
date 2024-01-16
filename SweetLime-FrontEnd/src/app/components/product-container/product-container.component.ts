@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -31,10 +31,16 @@ export class ProductContainerComponent implements OnInit {
     // Subscribe to changes in the current product URL
     this.sharedService.currentProduct.pipe(takeUntil(this.destroy$)).subscribe(url => {
       if (url) {
+        console.log('ProductContainerComponent - Current product URL:', url);
         this.productUrl = url;
         this.getProductsByUrl();
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private getProductsByUrl(): void {
@@ -54,24 +60,26 @@ export class ProductContainerComponent implements OnInit {
   }
 
   handleProductData() {
-    console.log("Product-container - handleProductData()")
+    console.log("ProductContainerComponent - handleProductData()")
+    console.log('ProductContainerComponent - productsToDisplay', this.products);
 
-    if (this.products.length > 1) {
-      console.log('Product-container - productsToDisplay', this.products);
+    if (this.products.length > 0) {
+      console.log('ProductContainerComponent - > 0');
 
       const productsToDisplay = `/products/${this.productUrl}`;
       this.sharedService.onSearchProduct(productsToDisplay);
-
+  
       this.sharedService.showProductInfo = true;
       this.sharedService.showSupportedWebError = false;
-      
+
     } else {
+      console.error('Product is not supported', this.products);
+
+      this.router.navigate(['/supported-web']);
       this.sharedService.showSupportedWebError = true;
       this.sharedService.showProductInfo = false;
       this.sharedService.onSearchProduct(null);
-
       this.sharedService.supportedWebErrorMessage = "The product is not supported. Please try another product.";
-      console.error('Product is not supported', this.products);
     }
   }
   
@@ -115,10 +123,5 @@ export class ProductContainerComponent implements OnInit {
       this.sharedService.supportedWebErrorMessage = "The product is not supported. Please try another product.";
       console.error('Product is not supported', this.products);
     }
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   } */
 }

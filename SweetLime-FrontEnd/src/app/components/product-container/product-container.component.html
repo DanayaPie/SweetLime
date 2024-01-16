@@ -2,10 +2,9 @@
   <app-supported-web></app-supported-web>
 </div>
 
-<app-product-detail-list
-  *ngIf="sharedService.showProductInfo"
-  [products]="products"
-></app-product-detail-list>
+<div *ngIf="sharedService.showProductInfo">
+  <app-product-detail-list [products]="products"></app-product-detail-list>
+</div>
 
 <!-- <div *ngIf="sharedService.showSupportedWebError">
   <app-supported-web></app-supported-web>

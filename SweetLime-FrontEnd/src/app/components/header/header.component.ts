@@ -25,21 +25,21 @@ export class HeaderComponent {
   }
 
   onSubmit() {
-    console.log("Header - onSubmit");
+    console.log("HeaderComponent - onSubmit");
 
     if (this.searchForm.valid) {
-      console.log("Header - searchForm.valid");
+      console.log("HeaderComponent - searchForm.valid");
 
       this.sharedService.resetSearchProductFrom();
       const productUrl = this.searchForm.value.productUrl.trim();
 
       // validate product url
       if (this.isValidUrl(productUrl)) {
-        console.log("Header - productUrl is valid");
+        console.log("HeaderComponent - productUrl is valid");
         
         // validate product url is from supported website
         if (this.supportedWebsiteCheckService.isSupportedWebsite(productUrl)) {
-          console.log("Header - productUrl is supported");
+          console.log("HeaderComponent - productUrl is supported");
 
           this.sharedService.updateCurrentProduct(productUrl);
           this.router.navigate(['/products', productUrl]);
@@ -66,7 +66,7 @@ export class HeaderComponent {
   }
   
   private handleUnsupportedWebsite() {
-    console.debug("Header - unsupported website error");
+    console.debug("HeaderComponent - unsupported website error");
 
     this.sharedService.showSupportedWebError = true;
     this.sharedService.showProductContainer = false;
@@ -78,7 +78,7 @@ export class HeaderComponent {
   }
 
   private handleInvalidUrl() {
-    console.debug("Header - invalid productUrl error");
+    console.debug("HeaderComponent - invalid productUrl error");
 
     this.sharedService.showSupportedWebError = true;
     this.sharedService.showProductContainer = false;
@@ -90,7 +90,7 @@ export class HeaderComponent {
   }
 
   private handleInvalidForm() {
-    console.debug("Header - form validation errors");
+    console.debug("HeaderComponent - form validation errors");
 
     this.sharedService.showSupportedWebError = true;
     this.sharedService.showProductContainer = false;

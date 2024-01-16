@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
 import { Product } from "../models/product";
 import { ConfigService } from "./config.service";
@@ -17,9 +17,9 @@ export class SharedService {
 
     public webList: string[] = this.configService.getSupportedWebsites();
     
-    private productSource = new BehaviorSubject<string | null>('/'); // Set a default value
-    currentProduct = this.productSource.asObservable();
-
+    private currentProductSource = new BehaviorSubject<string | null>(null);
+    currentProduct: Observable<string | null> = this.currentProductSource.asObservable();
+    
     constructor(
         private configService: ConfigService
     ) {}
@@ -29,11 +29,12 @@ export class SharedService {
     }
 
     onSearchProduct(url: string | null): void {
-        this.productSource.next(url);
-    }
+        console.log('SharedService - Current product URL:', url);
+        this.currentProductSource.next(url);
+    }    
 
     updateCurrentProduct(productUrl: string) {
-        this.productSource.next(productUrl);
+        this.currentProductSource.next(productUrl);
     }
 
     resetSearchProductFrom() {
