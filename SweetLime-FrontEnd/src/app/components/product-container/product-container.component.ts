@@ -54,35 +54,20 @@ export class ProductContainerComponent implements OnInit {
   }
 
   handleProductData() {
-    if (this.products.length === 1) {
-      const singleProduct = this.products[0];
+    console.log("Product-container - handleProductData()")
 
-      // save product id and url to the client-side state
-      this.sharedService.onSearchProduct(`/products/product/${singleProduct.productId}`);
-      // this.productStateService.saveProductToState(singleProduct.productId, singleProduct);
+    if (this.products.length > 1) {
+      console.log('Product-container - productsToDisplay', this.products);
+
+      const productsToDisplay = `/products/${this.productUrl}`;
+      this.sharedService.onSearchProduct(productsToDisplay);
 
       this.sharedService.showProductInfo = true;
-      this.sharedService.showProductList = false;
       this.sharedService.showSupportedWebError = false;
-      console.log('Product-container - single product', this.products);
-
-    } else if (this.products.length > 1) {
       
-      // saving each product to client-side state
-      // this.products.forEach(product => this.productStateService.saveProductToState(product.productId, product));
-
-      const productListUrl = `/products/product-list/${this.productUrl}`;
-      this.sharedService.onSearchProduct(productListUrl);
-
-      this.sharedService.showProductList = true;
-      this.sharedService.showProductInfo = false;
-      this.sharedService.showSupportedWebError = false;
-      console.log('Product-container - 2+ products', this.products);
-
-    } else if (this.products.length === 0 ) {
+    } else {
       this.sharedService.showSupportedWebError = true;
       this.sharedService.showProductInfo = false;
-      this.sharedService.showProductList = false;
       this.sharedService.onSearchProduct(null);
 
       this.sharedService.supportedWebErrorMessage = "The product is not supported. Please try another product.";

@@ -16,13 +16,12 @@ export class ProductComponent implements OnInit{
 
   constructor (
     private route: ActivatedRoute,
-    private productStateService: ProductStateService,
     private fetchProductService: FetchProductService
   ) {}
 
   ngOnInit(): void {
     console.log('ProductComponent ngOnInit');
-    this.handleProductData(); 
+    this.handleProductData();
   }
 
   private handleProductData(): void {

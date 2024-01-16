@@ -1,16 +1,15 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { Chart } from 'chart.js/auto';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Chart } from 'chart.js';
 
 import { Product } from 'src/app/models/product';
-import { TimeRangeLabelPipe } from './time-range-label.pipe';
 
 @Component({
-  selector: 'app-price-history',
-  templateUrl: './price-history.component.html',
-  styleUrls: ['./price-history.component.scss'],
-  providers: [TimeRangeLabelPipe]
+  selector: 'app-price-list',
+  templateUrl: './price-list.component.html',
+  styleUrls: ['./price-list.component.scss']
 })
-export class PriceHistoryComponent implements OnInit {
+
+export class PriceListComponent {
   @ViewChild('chart') private chartRef!: ElementRef;
   @Input() product: Product | undefined;
 

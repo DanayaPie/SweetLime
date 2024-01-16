@@ -19,6 +19,8 @@ import { SupportedWebsiteCheckService } from './services/supported-website-check
 import { ProductContainerComponent } from './components/product-container/product-container.component';
 import { SpacerComponent } from './components/common/spacer/spacer.component';
 import { ProductDetailListComponent } from './components/product-container/product-detail-list/product-detail-list.component';
+import { DetailListComponent } from './components/product-container/product-detail-list/detail-list/detail-list.component';
+import { PriceListComponent } from './components/product-container/product-detail-list/price-list/price-list.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { ProductDetailListComponent } from './components/product-container/produ
     ProductDetailComponent,
     PriceHistoryComponent,
     SpacerComponent,
-    ProductDetailListComponent
+    ProductDetailListComponent,
+    DetailListComponent,
+    PriceListComponent
   ],
   imports: [
     BrowserModule,

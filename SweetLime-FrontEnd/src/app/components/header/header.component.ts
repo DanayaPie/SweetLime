@@ -42,7 +42,7 @@ export class HeaderComponent {
           console.log("Header - productUrl is supported");
 
           this.sharedService.updateCurrentProduct(productUrl);
-          this.router.navigate(['/products', 'product-list', productUrl]);
+          this.router.navigate(['/products', productUrl]);
           
           this.sharedService.showProductContainer = true;
           this.sharedService.showSupportedWebError = false;

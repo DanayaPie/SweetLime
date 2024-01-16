@@ -1,8 +1,13 @@
-<!-- <div class="container" id="product-container">
-  <router-outlet></router-outlet>
-</div> -->
-
 <div *ngIf="sharedService.showSupportedWebError">
+  <app-supported-web></app-supported-web>
+</div>
+
+<app-product-detail-list
+  *ngIf="sharedService.showProductInfo"
+  [products]="products"
+></app-product-detail-list>
+
+<!-- <div *ngIf="sharedService.showSupportedWebError">
   <app-supported-web></app-supported-web>
 </div>
 
@@ -14,4 +19,4 @@
   <div *ngIf="sharedService.showProductList">
     <app-product-list [products]="products"></app-product-list>
   </div>
-</div>
+</div> -->
