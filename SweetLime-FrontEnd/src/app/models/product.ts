@@ -1,7 +1,7 @@
 export interface Product {
     productId: string;
     productName: string;
-    productUrl: string;
+    encodedProductUrl: string;
     createdDate: Date;
     deletedDate: Date | null;
     imagePath: string | null;

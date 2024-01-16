@@ -19,37 +19,26 @@ export class ProductContainerComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private fetchProductService: FetchProductService,
-    private productStateService: ProductStateService,
     public sharedService: SharedService,
   ) {}
 
   ngOnInit() {
     console.log('ProductContainerComponent - ngOnInit()');
-    this.loadProductData();
-  }
-
-  private loadProductData() {
+    
     this.products$ = this.route.paramMap.pipe(
       switchMap(params => {
-        const productUrl = params.get('url');
-        console.log('ProductContainerComponent - Product URL:', productUrl);
-        return productUrl ? this.getProduct(productUrl) : of([]);
+        const encodedProductUrl = params.get('url');
+        console.log('ProductContainerComponent - Product URL:', encodedProductUrl);
+        return encodedProductUrl ? this.getProduct(encodedProductUrl) : of([]);
       })
     );
 
     this.products$.subscribe(products => this.handleProductData(products));
   }
 
-  private getProduct(productUrl: string): Observable<Product[]> {
-    const cachedProducts = this.productStateService.getProductFromStateByUrl(productUrl);
-
-    if (cachedProducts && cachedProducts.length > 0) {
-      console.log("ProductContainerComponent - using cached products from state");
-      return of(cachedProducts);
-    } else {
-      console.log("ProductContainerComponent - get product from backend");
-      return this.fetchProductService.fetchProductByUrl(productUrl);
-    }
+  private getProduct(encodedProductUrl: string): Observable<Product[]> {
+    console.log("ProductContainerComponent - get product from backend");
+    return this.fetchProductService.fetchProductByUrl(encodedProductUrl);
   }
 
   handleProductData(products: Product[]) {
@@ -61,7 +50,9 @@ export class ProductContainerComponent implements OnInit {
     } else {
       console.log('ProductContainerComponent - handleProductData - else ');
   
+      this.router.navigate(['supported-web']);
       this.sharedService.showSupportedWebError = true;
+      this.sharedService.showProductContainer = false;
       this.sharedService.showProductInfo = false;
       this.sharedService.onSearchProduct(null);
       this.sharedService.supportedWebErrorMessage = "The product is not supported. Please try another product.";

@@ -17,7 +17,7 @@ export class ProductStateService {
         const products: Product[] = [];
 
         for (const product of this.productMap.values()) {
-            if (product.productUrl === productUrl) {
+            if (product.encodedProductUrl === productUrl) {
                 products.push(product);
             }
         }

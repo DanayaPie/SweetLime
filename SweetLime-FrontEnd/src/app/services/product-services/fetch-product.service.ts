@@ -94,8 +94,8 @@ export class FetchProductService {
             const productUrl = decodeURIComponent(encodedProductUrl);
             const requestBody = { productUrl };
             const getProductByUrl = `${this.apiUrl}/url`;
-            console.log("requestBody:", requestBody);
-            console.log("getProductByUrl:", getProductByUrl);
+            console.log("FetchProductService - requestBody:", requestBody);
+            console.log("FetchProductService - getProductByUrl:", getProductByUrl);
 
             // fetch product from backend
             return this.http.post<Product>(getProductByUrl, requestBody).pipe(

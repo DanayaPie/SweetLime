@@ -19,7 +19,7 @@ export class ProductInfoService {
         return {
             productId: productData.productId,
             productName: productData.productName,
-            productUrl: productData.productUrl,
+            encodedProductUrl: encodeURIComponent(productData.productUrl),
             createdDate: new Date(this.convertEpochToLocalDate(productData.createdDate)),
             deletedDate: new Date(this.convertEpochToLocalDate(productData.deletedDate)),
             imagePath: productData.imagePath,

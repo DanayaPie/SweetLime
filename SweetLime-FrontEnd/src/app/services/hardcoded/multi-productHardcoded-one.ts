@@ -4,7 +4,7 @@ export const multiProductHardcodedOne: Product[] = [
   {
     productId: '3dbff070-572b-4a21-8c73-95666d8b3cb7',
     productName: 'BEAUTY OF JOSEON - Relief Sun : Rice + Probiotic SPF50+ PA++++ - 10ml',
-    productUrl: 'https://www.stylevana.com/en_US/beauty-of-joseon-relief-sun-rice-probiotic-50ml.html',
+    encodedProductUrl: 'https%253A%252F%252Fwww.stylevana.com%252Fen_US/beauty-of-joseon-relief-sun-rice-probiotic-50ml.html',
     createdDate: new Date('1/20/1970'),
     deletedDate: null,
     imagePath: 'https://cdn.stylevana.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/b/e/beauty-of-joseon-relief-sun-rice-probiotic-50ml-318.jpg',
@@ -25,7 +25,7 @@ export const multiProductHardcodedOne: Product[] = [
   {
     productId: '3dbff070-572b-4a21-8c73-95351a3brdadsf7',
     productName: 'BEAUTY OF JOSEON - Relief Sun : Rice + Probiotic SPF50+ PA++++ - 50ml',
-    productUrl: 'https://www.stylevana.com/en_US/beauty-of-joseon-relief-sun-rice-probiotic-50ml.html',
+    encodedProductUrl: 'https%253A%252F%252Fwww.stylevana.com%252Fen_US%252Fbeauty-of-joseon-relief-sun-rice-probiotic-50ml.html',
     createdDate: new Date('1/20/1970'),
     deletedDate: null,
     imagePath: 'https://cdn.stylevana.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/b/e/beauty-of-joseon-relief-sun-rice-probiotic-50ml-318.jpg',

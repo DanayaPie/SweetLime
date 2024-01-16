@@ -38,8 +38,8 @@ export class DetailListComponent {
 
   onOpenProductWebsite(): void {
     
-    if (this.product && this.product.productUrl) {
-      window.open(this.product.productUrl, '_blank');
+    if (this.product && this.product.encodedProductUrl) {
+      window.open(this.product.encodedProductUrl, '_blank');
     }
   }
 }

@@ -4,7 +4,7 @@ export const oneProductHardCodedOne: Product[] = [
   {
     productId: "8a218519-53a0-4115-a5fa-6a962b56a047",
     productName: "numbuzin - No.3 Super Glowing Essence Toner - 200ml",
-    productUrl: "https://www.stylevana.com/en_US/numbuz-n-no-3-super-glowing-essence-toner-200ml.html",
+    encodedProductUrl: "https%253A%252F%252Fwww.stylevana.com%252Fen_US%252Fnumbuz-n-no-3-super-glowing-essence-toner-200ml.html",
     createdDate: new Date("10/25/2023"),
     deletedDate: null,
     imagePath: "https://cdn.stylevana.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/n/u/numbuzin-no-3-super-glowing-essence-toner-200ml-529.jpg",
