@@ -82,14 +82,16 @@ export class FetchProductService {
         Fetch Product from Database by URL
     */
     fetchProductByUrl(encodedProductUrl: string): Observable<Product[]> {
-        console.log("FetchProductService - backend fetchProductByUrl:");
+        console.log("FetchProductService - getting product from state then backend");
 
         // check if product are already available in client-side state
         const cachedProduct = this.productStateService.getProductFromStateByUrl(encodedProductUrl);
 
         if (cachedProduct && cachedProduct.length > 0) {
+            console.log("FetchProductService - product received from state");
             return of (cachedProduct);
         } else {
+            console.log("FetchProductService - get product from backend");
 
             const productUrl = decodeURIComponent(encodedProductUrl);
             const requestBody = { productUrl };

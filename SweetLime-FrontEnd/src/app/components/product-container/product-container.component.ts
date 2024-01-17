@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Observable, Subject, map, of, switchMap, takeUntil } from 'rxjs';
+import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { Observable, Subject, distinctUntilChanged, distinctUntilKeyChanged, filter, map, mergeMap, of, switchMap, takeUntil } from 'rxjs';
 
 import { Product } from 'src/app/models/product';
 import { FetchProductService } from 'src/app/services/product-services/fetch-product.service';
@@ -25,9 +25,17 @@ export class ProductContainerComponent implements OnInit {
   ngOnInit() {
     console.log('ProductContainerComponent - ngOnInit()');
     
+    // Subscribe to router events
+    this.router.events.pipe(
+      filter((event: RouterEvent) => event instanceof NavigationEnd),
+    ).subscribe(event => {
+      console.log('Router Event:', event);
+    });
+
     this.products$ = this.route.paramMap.pipe(
-      switchMap(params => {
-        const encodedProductUrl = params.get('url');
+      map(params => params.get('url') as string),
+      distinctUntilChanged(), // only emit when 'url' parameter changes
+      switchMap(encodedProductUrl => {
         console.log('ProductContainerComponent - Product URL:', encodedProductUrl);
         return encodedProductUrl ? this.getProduct(encodedProductUrl) : of([]);
       })

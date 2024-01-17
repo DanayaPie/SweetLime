@@ -1,10 +1,12 @@
 <div *ngIf="products$ | async as products; else loading">
   <app-product-detail-list
-    *ngIf="products.length > 0"
+    *ngIf="sharedService.showProductInfo"
     [products]="products"
   ></app-product-detail-list>
 
-  <app-supported-web *ngIf="products.length === 0"></app-supported-web>
+  <app-supported-web
+    *ngIf="sharedService.showSupportedWebError"
+  ></app-supported-web>
 </div>
 
 <ng-template #loading>
