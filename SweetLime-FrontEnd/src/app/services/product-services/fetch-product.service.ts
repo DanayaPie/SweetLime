@@ -107,7 +107,7 @@ export class FetchProductService {
                             const product = this.productInfoService.mapToProductModel(productData);
 
                             // save product to client-side state
-                            this.productStateService.saveProductToState(product.productId, product);
+                            this.productStateService.saveProductToStateByUrl(product.encodedProductUrl, product);
                             return product;
                         });
 
@@ -147,7 +147,7 @@ export class FetchProductService {
                     console.log('FetchProductService - HTTP request success callback');
     
                     // Save product to client-side state
-                    this.productStateService.saveProductToState(product.productId, product);
+                    this.productStateService.saveProductToStateByUrl(product.encodedProductUrl, product);
                 })
             );
         }

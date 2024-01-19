@@ -39,8 +39,8 @@ export class ProductStateService {
         return this.productMap.has(productId);
     }
 
-    saveProductToState(productId: string, product: Product): void {
-        this.productMap.set(productId, product);
-        console.log('ProductStateService - saveProductToSate', this.productMap.get(productId));
+    saveProductToStateByUrl(encodedUrl: string, product: Product): void {
+        this.productMap.set(encodedUrl, product);
+        console.log('ProductStateService - saveProductToStateByUrl', this.productMap.get(encodedUrl));
     }
 }
