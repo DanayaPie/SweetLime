@@ -4,6 +4,7 @@ export const oneProductHardCodedTwo: Product[] = [
   {
     productId: "c657fbc2-20b4-42fb-8b60-2d051b4bed2e",
     productName: "Haruharu Wonder Black Rice Hyaluronic Toner Fragrance-Free - 300ml",
+    //https://www.stylevana.com/en_US/haruharu-wonder-black-rice-hyaluronic-toner-fragrance-free-300ml.html
     encodedProductUrl: "https%253A%252F%252Fwww.stylevana.com%252Fen_US%252Fharuharu-wonder-black-rice-hyaluronic-toner-fragrance-free-300ml.html",
     createdDate: new Date("01/03/2024"),
     deletedDate: null,

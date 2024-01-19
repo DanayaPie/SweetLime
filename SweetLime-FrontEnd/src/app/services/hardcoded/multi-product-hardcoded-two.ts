@@ -4,6 +4,7 @@ export const multiProductHardcodedTwo: Product[] = [
   {
     productId: "cec38a50-2fb5-457a-beef-3119534426b5",
     productName: "Etude House - Double Lasting Serum Skin Foundation SPF27 PA++ - 30g - 21C1 Petal",
+    // www.stylevana.com/en_US/etude-house-double-lasting-serum-skin-foundation-spf27-pa-30g.html
     encodedProductUrl: "https%253A%252F%252Fwww.stylevana.com%252Fen_US%252Fetude-house-double-lasting-serum-skin-foundation-spf27-pa-30g.html",
     createdDate: new Date("01/03/2024"),
     deletedDate: null,
