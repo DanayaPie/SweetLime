@@ -8,7 +8,11 @@ import { ProductDetailListComponent } from './components/product-container/produ
 const routes: Routes = [
     { path: '', redirectTo: 'supported-web', pathMatch: 'full' },
     { path: 'supported-web', component: SupportedWebComponent },
-    { path: 'products/:url', component: ProductContainerComponent }
+    { path: 'products/:url', component: ProductContainerComponent,
+      children: [
+        { path: '', component: ProductDetailListComponent }
+      ]
+    }
   ];
   
   @NgModule({

@@ -10,6 +10,7 @@ import { SupportedWebsiteCheckService } from '../../services/supported-website-c
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
+
 export class HeaderComponent {
   searchForm: FormGroup;
 
@@ -42,10 +43,18 @@ export class HeaderComponent {
         if (this.supportedWebsiteCheckService.isSupportedWebsite(productUrl)) {
           console.log("HeaderComponent - productUrl is supported", productUrl);
 
-          this.router.navigate(['products', encodeURIComponent(productUrl)]);
-          this.sharedService.showProductContainer = true;
-          // this.sharedService.showSupportedWebError = false;
-          this.searchForm.reset();
+          const encodedUrl = encodeURIComponent(productUrl);
+
+          this.sharedService.onSearchProduct(encodedUrl).subscribe(products => {
+            if (products.length > 0) {
+              this.router.navigate(['products', encodeURIComponent(encodedUrl)]);
+              this.sharedService.showProductContainer = true;
+
+            } else {
+              this.handleUnsupportedProduct();
+            }
+          });
+
         } else {
           this.handleUnsupportedWebsite();
         }
@@ -57,20 +66,30 @@ export class HeaderComponent {
     } else {
       this.handleInvalidForm();
     }
+
+    this.searchForm.reset();
   }
 
   private isValidUrl(url: string): boolean {
     const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
     return urlRegex.test(url);
   }
-  
+
+  private handleUnsupportedProduct() {
+    this.sharedService.showSupportedWebError = true;
+    this.sharedService.showProductContainer = false;
+    this.sharedService.onSearchProduct(null);
+
+    this.sharedService.supportedWebErrorMessage = "The product is not supported. Please try another product.";
+    console.error('Product is not supported');
+  }
+
   private handleUnsupportedWebsite() {
     console.debug("HeaderComponent - unsupported website error");
 
     this.sharedService.showSupportedWebError = true;
     this.sharedService.showProductContainer = false;
     this.sharedService.onSearchProduct(null);
-    this.searchForm.reset();
 
     this.sharedService.supportedWebErrorMessage = 
     "The product entered is not from our supported website. Please enter a product URL from our list of supported websites.";
@@ -82,7 +101,6 @@ export class HeaderComponent {
     this.sharedService.showSupportedWebError = true;
     this.sharedService.showProductContainer = false;
     this.sharedService.onSearchProduct(null);
-    this.searchForm.reset();
 
     this.sharedService.supportedWebErrorMessage =
       "Please enter a valid product URL. The product URL must be from our supported websites.";
@@ -94,7 +112,6 @@ export class HeaderComponent {
     this.sharedService.showSupportedWebError = true;
     this.sharedService.showProductContainer = false;
     this.sharedService.onSearchProduct(null);
-    this.searchForm.reset();
 
     this.sharedService.supportedWebErrorMessage =
       "Please enter a valid product URL. The product URL must be from our supported websites.";

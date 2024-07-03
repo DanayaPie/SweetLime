@@ -1,0 +1,8 @@
+<ng-container *ngIf="products$ | async as products">
+  <ng-container *ngIf="products.length > 0; else noProducts">
+    <app-product-detail-list [products]="products"></app-product-detail-list>
+  </ng-container>
+  <ng-template #noProducts>
+    <p>No products available</p>
+  </ng-template>
+</ng-container>

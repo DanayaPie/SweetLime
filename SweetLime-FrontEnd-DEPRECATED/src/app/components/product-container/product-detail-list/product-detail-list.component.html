@@ -1,0 +1,8 @@
+<p>product-detail-list</p>
+<div *ngIf="products && products.length > 0">
+  <div *ngFor="let product of products">
+    <p>product display here</p>
+    <!-- <app-detail-list [product]="product"></app-detail-list>
+    <app-price-list [product]="product"></app-price-list> -->
+  </div>
+</div>
