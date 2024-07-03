@@ -1,4 +1,5 @@
 application.properties
+package-lock.json
 
 # Compiled class file
 *.class
