@@ -51,7 +51,7 @@ public class StylevanaController {
         }
     }
 
-    @GetMapping(path = "/stylevanaUpdate")
+    @GetMapping(path = "/stylevanaUpdateAll")
     public ResponseEntity<Object> batchUpdateProducts() {
         logger.info("StylevanaController.batchUpdateProducts() invoked");
 

@@ -39,6 +39,40 @@ public class StylevanaUtil {
         return productInfoJson;
     }
 
+    public static List<String> extractProductImageJsonString(String productUrl) throws IOException {
+        logger.info("StylevanaUtil.extractProductImageJsonString() invoked");
+
+        String outStream = new Scanner(new URL(productUrl.trim()).openStream()).useDelimiter("\\A").next();
+        String[] lines = outStream.split("\n");
+
+        List<String> productInfoJson = new ArrayList();
+
+        for (int i = 0; i < lines.length; i++) {
+
+            String line = lines[i].trim();
+            if (line.contains("<div class=\"magnify\"")) {
+                logger.info(line);
+                int indexStart = line.indexOf("src=");
+                int indexEnd = line.indexOf(">");
+                productInfoJson.add(line.substring(indexStart, indexEnd));
+            }
+
+//            if (line.contains("var spConfig = ")) {
+//                int indexStart = line.indexOf("{");
+//                int indexEnd = line.indexOf(";");
+//                productInfoJson.add(line.substring(indexStart, indexEnd));
+//            }
+        }
+
+        for (int i= 0; i < productInfoJson.size(); i++) {
+
+            logger.info(productInfoJson.get(i));
+        }
+
+
+        return productInfoJson;
+    }
+
     public static String extractPriceJsonString(String productUrl) throws IOException {
         logger.info("StylevanaUtil.extractPriceJsonString() invoked");
 
