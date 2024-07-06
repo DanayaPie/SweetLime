@@ -1,5 +1,9 @@
-<div *ngIf="products && products.length > 0">
-  <app-product-detail [product]="products[0]"></app-product-detail>
-  <app-spacer></app-spacer>
-  <app-price-history [product]="products[0]"></app-price-history>
+<div *ngFor="let product of products">
+  <div class="container">
+    <app-product-detail [product]="product"></app-product-detail>
+  </div>
+  <div class="container">
+    <app-price-history></app-price-history>
+    <!-- <app-price-history [product]="product"></app-price-history> -->
+  </div>
 </div>

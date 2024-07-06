@@ -1,18 +1,19 @@
-<div class="product-list-container">
-  <div *ngFor="let product of products" class="product-item">
-    <a [routerLink]="['/product', product.productId]">
-      <img [src]="product.imagePath" alt="{{ product.productName }}" />
-      <p class="product-name">{{ product.productName }}</p>
-    </a>
-    <div class="details">
-      <ul>
-        <li *ngFor="let option of product?.options | keyvalue">
-          {{ option.key }}: {{ option.value }}
-        </li>
-      </ul>
-    </div>
-    <div class="price-info">
-      <p class="current-price">${{ product?.newestPrice }}</p>
+<div class="product-list">
+  <div
+    *ngFor="let product of products"
+    class="product-item"
+    (click)="onProductSelected(product)"
+  >
+    <img
+      class="product-image"
+      [src]="product.imagePath"
+      alt="{{ product.productName }}"
+    />
+    <div class="product-info">
+      <h5 class="product-name">
+        <a>{{ product.productName }}</a>
+      </h5>
+      <p class="product-price">${{ product.newestPrice }}</p>
     </div>
   </div>
 </div>

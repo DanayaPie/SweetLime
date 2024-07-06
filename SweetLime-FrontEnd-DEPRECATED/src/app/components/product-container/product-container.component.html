@@ -1,0 +1,11 @@
+<ng-container *ngIf="displayProductList">
+  <app-product-list
+    (productSelected)="onProductSelected($event)"
+  ></app-product-list>
+</ng-container>
+<ng-container *ngIf="!displayProductList">
+  <app-product-detail
+    *ngIf="selectedProduct"
+    [product]="selectedProduct"
+  ></app-product-detail>
+</ng-container>
