@@ -1,0 +1,17 @@
+<div>
+  <p
+    *ngIf="
+      sharedService.showSupportedWebError &&
+      sharedService.supportedWebErrorMessage
+    "
+    style="color: red"
+  >
+    {{ sharedService.supportedWebErrorMessage }}
+  </p>
+  <p>Supported Websites:</p>
+  <ul>
+    <li *ngFor="let supportedWeb of sharedService.getWebList()">
+      {{ supportedWeb }}
+    </li>
+  </ul>
+</div>

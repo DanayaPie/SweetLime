@@ -34,4 +34,11 @@ public class ProductDao {
         List<Product> productsRetrieved = dynamoDBMapper.scan(Product.class, scanExpression);
         return productsRetrieved;
     }
+
+    public Product getProductById(String productId) {
+        logger.info("ProductDao.getProductById() invoked");
+
+        Product productRetrieved = dynamoDBMapper.load(Product.class, productId);
+        return productRetrieved;
+    }
 }
